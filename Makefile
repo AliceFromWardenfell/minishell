@@ -33,4 +33,4 @@ lftclean:
 
 re:			fclean all
 
-.PHONY:		all build clean fclean re
+.PHONY:		all build clean lftclean fclean re
