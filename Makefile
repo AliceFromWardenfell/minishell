@@ -1,11 +1,15 @@
-CC		=	gcc
 NAME	=	minishell
+
+CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 HDRS	=	executor.h
-RM		=	rm -f
+LIBS	= 	-lreadline
+LIBFT	=	-L libft -lft
+
 SRCS	=	executor.c
 OBJS	=	${SRCS:.c=.o}
-LIBS	= 	-lreadline
+
+RM		=	rm -f
 
 .c.o:		${HDRS}
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
@@ -13,7 +17,8 @@ LIBS	= 	-lreadline
 all:		${NAME}
 
 $(NAME):	${OBJS} ${HDRS} ${LIBS}
-			${CC} ${CFLAGS} ${OBJS} ${LIBS} -o ${NAME}
+			$(MAKE) -C libft
+			${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} -o ${NAME} 
 
 build:		all clean
 
@@ -22,6 +27,9 @@ clean:
 
 fclean:		clean
 			${RM} ${NAME}
+
+lftclean:
+			$(MAKE) clean -C libft
 
 re:			fclean all
 
