@@ -16,6 +16,7 @@ int		main(void)
 	cmd1.argv[2] = "13";
 	cmd1.argv[3] = NULL;
 	cmd1.fd_out	= 0;
+	cmd1.fd_in	= 0;
 	
 	cmd2.argv = (char **)malloc(4 * sizeof(char*));
 	cmd2.argv[0] = "mult";
@@ -23,6 +24,7 @@ int		main(void)
 	cmd2.argv[2] = "8";
 	cmd2.argv[3] = NULL;
 	cmd2.fd_out = open("output", O_WRONLY | O_CREAT, 0644);
+	cmd2.fd_in = open("m", O_RDONLY, 0644);
 
 	cmd3.argv = (char **)malloc(4 * sizeof(char*));
 	cmd3.argv[0] = "subtr";
@@ -30,19 +32,24 @@ int		main(void)
 	cmd3.argv[2] = "2";
 	cmd3.argv[3] = NULL;
 	cmd3.fd_out	= 0;
+	cmd3.fd_in	= 0;
 	
 	/*****my part*****/
 
 	int		pid;
 	t_cmd	*tmp;
 	int		tmp_fd_out;
+	int		tmp_fd_in;
 
 	tmp = &cmd1;
 	tmp_fd_out = dup(1);
+	tmp_fd_in = dup(0);
 	while (tmp)
 	{
 		if (tmp->fd_out)
 			dup2(tmp->fd_out, 1);
+		if (tmp->fd_in)
+			dup2(tmp->fd_in, 0);
 		pid = fork();
 		if (!pid)
 			if (execve(tmp->argv[0], tmp->argv, NULL) < 0)
@@ -52,6 +59,7 @@ int		main(void)
 			}
 		wait(NULL);
 		dup2(tmp_fd_out, 1);
+		dup2(tmp_fd_in, 0);
 		tmp = tmp->next;
 	}
 	printf("*SUCCESS*\n");

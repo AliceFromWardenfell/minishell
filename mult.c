@@ -1,10 +1,14 @@
 #include "executor.h"
 
-int		main(int argc, char **argv)
+int		main(void)
 {
-	if (argc == 3)
-	{
-		printf("%d * %d = %d\n", ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[1]) * ft_atoi(argv[2]));
-	}
+	int		m1;
+	int		m2;
+
+	//printf("Enter first multiplier: ");
+	scanf("%d", &m1);
+	//printf("Enter second multiplier: ");
+	scanf("%d", &m2);
+	printf("%d * %d = %d\n", m1, m2, m1 * m2);
 	return (0);
 }
