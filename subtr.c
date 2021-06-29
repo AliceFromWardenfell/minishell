@@ -1,10 +1,12 @@
 #include "executor.h"
 
-int		main(int argc, char **argv)
+int		main(void)
 {
-	if (argc == 3)
-	{
-		printf("%d - %d = %d\n", ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[1]) - ft_atoi(argv[2]));
-	}
+	int		a;
+	int		b;
+
+	scanf("%d", &a);
+	scanf("%d", &b);
+	printf("%d", a - b);
 	return (0);
 }

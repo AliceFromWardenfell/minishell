@@ -11,45 +11,51 @@ int		main(void)
 	cmd1.next = &cmd2;
 
 	cmd1.argv = (char **)malloc(4 * sizeof(char*));
-	cmd1.argv[0] = "summ";
-	cmd1.argv[1] = "24";
-	cmd1.argv[2] = "13";
-	cmd1.argv[3] = NULL;
-	cmd1.fd_out	= 0;
-	cmd1.fd_in	= 0;
+	cmd1.argv[0] = "subtr";
+	cmd1.argv[1] = NULL;
+	cmd1.fd_out	= 1;
+	cmd1.fd_in	= open("input", O_RDONLY, 0644);
 	
 	cmd2.argv = (char **)malloc(4 * sizeof(char*));
-	cmd2.argv[0] = "mult";
-	cmd2.argv[1] = "7";
-	cmd2.argv[2] = "8";
-	cmd2.argv[3] = NULL;
-	cmd2.fd_out = open("output", O_WRONLY | O_CREAT, 0644);
-	cmd2.fd_in = open("m", O_RDONLY, 0644);
+	cmd2.argv[0] = "pow2";
+	cmd2.argv[1] = NULL;
+	cmd2.fd_out = 1;
+	cmd2.fd_in = 0;
 
 	cmd3.argv = (char **)malloc(4 * sizeof(char*));
-	cmd3.argv[0] = "subtr";
-	cmd3.argv[1] = "10";
-	cmd3.argv[2] = "2";
-	cmd3.argv[3] = NULL;
-	cmd3.fd_out	= 0;
+	cmd3.argv[0] = "plus5";
+	cmd3.argv[1] = NULL;
+	cmd3.fd_out	= open("output", O_WRONLY | O_CREAT, 0644);
 	cmd3.fd_in	= 0;
+
 	
 	/*****my part*****/
 
 	int		pid;
 	t_cmd	*tmp;
-	int		tmp_fd_out;
-	int		tmp_fd_in;
+	t_cmd	*tmp_next;
+	int		old_fd_out;
+	int		old_fd_in;
+	int		pipe_fd[2];
 
 	tmp = &cmd1;
-	tmp_fd_out = dup(1);
-	tmp_fd_in = dup(0);
+	old_fd_out = dup(1); // save old
+	old_fd_in = dup(0);
 	while (tmp)
 	{
-		if (tmp->fd_out)
-			dup2(tmp->fd_out, 1);
+		dup2(tmp->fd_in, 0); // init has to be on 0
 		if (tmp->fd_in)
-			dup2(tmp->fd_in, 0);
+			close(tmp->fd_in);
+		tmp_next = tmp->next;
+		if (tmp_next && tmp_next->argv[0]) // if true, pipe exists
+		{
+			pipe(pipe_fd);
+			tmp_next->fd_in = pipe_fd[0];
+			tmp->fd_out = pipe_fd[1];
+		}
+		dup2(tmp->fd_out, 1); // init has to be on 1
+		if (tmp->fd_out != 1)
+			close(tmp->fd_out);
 		pid = fork();
 		if (!pid)
 			if (execve(tmp->argv[0], tmp->argv, NULL) < 0)
@@ -58,10 +64,12 @@ int		main(void)
 				return(-1);
 			}
 		wait(NULL);
-		dup2(tmp_fd_out, 1);
-		dup2(tmp_fd_in, 0);
 		tmp = tmp->next;
 	}
+	dup2(old_fd_out, 1);
+	close(old_fd_out);
+	dup2(old_fd_in, 0);
+	close(old_fd_in);
 	printf("*SUCCESS*\n");
 	return (0);
 }
