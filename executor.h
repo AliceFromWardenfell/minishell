@@ -16,4 +16,6 @@ typedef struct		s_cmd
     struct s_cmd*	next;
 }					t_cmd;
 
+int		executor(t_cmd *cmd);
+
 #endif

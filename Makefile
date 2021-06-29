@@ -6,7 +6,8 @@ HDRS	=	executor.h
 LIBS	= 	-lreadline
 LIBFT	=	-L libft -lft
 
-SRCS	=	executor.c
+SRCS	=	executor.c \
+			main_for_executor.c #tmp file
 OBJS	=	${SRCS:.c=.o}
 
 RM		=	rm -f
