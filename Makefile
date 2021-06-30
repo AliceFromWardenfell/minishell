@@ -7,6 +7,7 @@ LIBS	= 	-lreadline
 LIBFT	=	-L libft -lft
 
 SRCS	=	executor.c \
+			global_error.c \
 			main_for_executor.c #tmp file
 OBJS	=	${SRCS:.c=.o}
 

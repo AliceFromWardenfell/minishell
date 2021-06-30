@@ -23,7 +23,7 @@ int		main(void)
 	cmd2.fd_in = 0;
 
 	cmd3.argv = (char **)malloc(4 * sizeof(char*));
-	cmd3.argv[0] = "plus5";
+	cmd3.argv[0] = "plus54";
 	cmd3.argv[1] = NULL;
 	cmd3.fd_out	= open("output", O_WRONLY | O_CREAT, 0644);
 	cmd3.fd_in	= 0;
