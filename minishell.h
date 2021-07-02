@@ -3,7 +3,7 @@
 
 #include "libft/libft.h"
 
-# define TEMP_PATH "/home/vyrm/exercises/minishell/temp_1"
+# define TEMP_PATH "/home/vyrm/exercises/minishell/temp"
 
 typedef struct s_char
 {
@@ -42,7 +42,9 @@ int	tchar_strlen(t_char *str);
 t_char	*tchardup(t_char *str);
 int	key_check(t_char *no_q);
 int	free_return_int(void *to_free, int to_return);
+int	print_free_return(int fd, char	*path, int to_return);
 int	redirect_get(t_pipe *no_p, int redir, char *path);
+char	*get_temp_path(void);
 int	redirection_parse(t_pipe *no_p, char **env);
 int	get_word_size(t_char *no_q);
 char	*ch_transform(t_char *no_q);

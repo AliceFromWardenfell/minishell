@@ -107,11 +107,6 @@ int	redirection_parse(t_pipe *no_p, char **env)
 			ft_putstr_fd("Malloc failed\n", 2);
 		else if (j == -1)
 			ft_putstr_fd("Ambiguous redirect\n", 2);
-		else if (j == -2)
-		{	
-			ft_putstr_fd(strerror(errno), 2);
-			ft_putchar_fd('\n', 2);
-		}
 		if (j < 1)
 		{	
 			pipe_clear(no_p);

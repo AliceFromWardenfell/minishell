@@ -4,14 +4,24 @@
 #include <readline/readline.h>
 #include <unistd.h>
 
+int	free_return_int(void *to_free, int to_return)
+{
+	free(to_free);
+	return(to_return);
+}
+
 static int	get_heredocument(char *delimiter)
 {
-	int	fd;
-	char *str;
+	int			fd;
+	char		*str;
+	char		*path;
 
-	fd = open(TEMP_PATH, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (!fd)
-		return (-1);
+	path = get_temp_path();
+	if (!path)
+		return (-2);
+	fd = open(path, O_CREAT | O_WRONLY | O_TRUNC | O_EXCL, 0644);
+	if (fd == -1)
+		return (free_return_int(path, -1));
 	str = readline("> ");
 	while (str && ft_strncmp(str, delimiter, ft_strlen(str)))
 	{	
@@ -22,9 +32,9 @@ static int	get_heredocument(char *delimiter)
 	}
 	free(str);
 	close(fd);
-	fd = open(TEMP_PATH, O_RDONLY);
-	unlink(TEMP_PATH);
-	return (fd);
+	fd = open(path, O_RDONLY);
+	unlink(path);
+	return (free_return_int(path, fd));
 }
 
 static int	redir_output(int redir, char *path)
@@ -49,12 +59,6 @@ static int	redir_input(int redir, char *path)
 	return (fd);
 }
 
-int	free_return_int(void *to_free, int to_return)
-{
-	free(to_free);
-	return(to_return);
-}
-
 int	redirect_get(t_pipe *no_p, int redir, char *path)
 {
 	int	fd;
@@ -65,7 +69,7 @@ int	redirect_get(t_pipe *no_p, int redir, char *path)
 			close(no_p->fd_out);
 		fd = redir_output(redir, path);
 		if (fd < 0)
-			return (free_return_int(path, 0));
+			return (print_free_return(fd, path, 0));
 		no_p->fd_out = fd;
 	}
 	else if (redir == 3 || redir == 4)
@@ -74,7 +78,7 @@ int	redirect_get(t_pipe *no_p, int redir, char *path)
 			close(no_p->fd_in);
 		fd = redir_input(redir, path);
 		if (fd < 0)
-			return (free_return_int(path, 0));
+			return (print_free_return(fd, path, 0));
 		no_p->fd_in = fd;
 	}
 	return (free_return_int(path, 1));
