@@ -18,13 +18,13 @@ static int	get_heredocument(char *delimiter)
 
 	path = get_temp_path();
 	if (!path)
-		return (-2);
+		return (0);
 	fd = open(path, O_CREAT | O_WRONLY | O_TRUNC | O_EXCL, 0644);
 	if (fd == -1)
 		return (free_return_int(path, -1));
 	str = readline("> ");
 	while (str && ft_strncmp(str, delimiter, ft_strlen(str)))
-	{	
+	{
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
@@ -69,7 +69,7 @@ int	redirect_get(t_pipe *no_p, int redir, char *path)
 			close(no_p->fd_out);
 		fd = redir_output(redir, path);
 		if (fd < 0)
-			return (print_free_return(fd, path, 0));
+			return (print_free_return(path, fd));
 		no_p->fd_out = fd;
 	}
 	else if (redir == 3 || redir == 4)
@@ -78,7 +78,7 @@ int	redirect_get(t_pipe *no_p, int redir, char *path)
 			close(no_p->fd_in);
 		fd = redir_input(redir, path);
 		if (fd < 0)
-			return (print_free_return(fd, path, 0));
+			return (print_free_return(path, fd));
 		no_p->fd_in = fd;
 	}
 	return (free_return_int(path, 1));

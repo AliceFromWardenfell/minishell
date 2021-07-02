@@ -50,22 +50,23 @@ static int	redirection_process(t_pipe *no_p, int i, char **env)
 	t_char	*temp;
 	char	*c_temp;
 	int		redir;
+	int		j;
 
 	redir = get_redir(no_p->no_quote, i);
 	temp = get_redir_path(no_p->no_quote, i);
 	if (!temp)
 		return (0);
-	if (redir != 4)
-		temp = redir_env(temp, env);
+	temp = redir_env(temp, env, redir);
 	if (!temp)
 		return (0);
 	if (!redirection_check(temp))
-		return (-1);
+		return (-2);
 	c_temp = ch_transform(temp);
 	if (!c_temp)
 		return (0);
-	if (!redirect_get(no_p, redir, c_temp))
-		return (-2);
+	j = redirect_get(no_p, redir, c_temp);
+	if (j < 1)
+		return (j);
 	temp = get_new_noq(no_p->no_quote, i);
 	if (!temp)
 		return (0);
@@ -104,14 +105,15 @@ int	redirection_parse(t_pipe *no_p, char **env)
 	{
 		j = redirection_get(&no_p[i], env);
 		if (j == 0)
+		{
 			ft_putstr_fd("Malloc failed\n", 2);
-		else if (j == -1)
-			ft_putstr_fd("Ambiguous redirect\n", 2);
-		if (j < 1)
-		{	
 			pipe_clear(no_p);
 			return (0);
 		}
+		else if (j == -2)
+			ft_putstr_fd("Ambiguous redirect\n", 2);
+		if (j < 0)
+			ft_charcpy(&no_p[i].no_quote[0], '\0', -1);
 		i++;
 	}
 	return (1);
