@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int is_key(char c)
+int	is_key(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);
@@ -15,12 +15,12 @@ int	key_length(t_char *no_q)
 	if (no_q[i].c == '?' && no_q[i].escaped == no_q[0].escaped)
 		return (2);
 	else
-		while(is_key(no_q[i].c) && no_q[i].escaped == no_q[0].escaped)
+		while (is_key(no_q[i].c) && no_q[i].escaped == no_q[0].escaped)
 			i++;
 	return (i);
 }
 
-void *free_return_null(void *to_free)
+void	*free_return_null(void *to_free)
 {
 	free(to_free);
 	return (NULL);
@@ -29,9 +29,9 @@ void *free_return_null(void *to_free)
 int	tchar_strlen(t_char *str)
 {
 	int	i;
-	
+
 	i = 0;
-	while(str[i].c)
+	while (str[i].c)
 		i++;
 	return (i);
 }

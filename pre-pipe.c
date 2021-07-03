@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int ft_is_blank(t_char *c)
+int	ft_is_blank(t_char *c)
 {
 	if ((c->c == ' ' || c->c == '\n' || c->c == '\t') && c->escaped == 0)
 		return (1);
@@ -11,7 +11,7 @@ int	pipe_check(t_char *no_quote)
 {
 	int	flag;
 	int	pipe;
-	int i;
+	int	i;
 
 	i = 0;
 	flag = 0;

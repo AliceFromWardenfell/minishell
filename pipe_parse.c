@@ -4,7 +4,7 @@
 void	*pipe_clear(t_pipe *no_pipe)
 {
 	int	i;
-	
+
 	i = 0;
 	while (no_pipe[i].no_quote != NULL)
 	{
@@ -35,17 +35,6 @@ static int	pipe_count(t_char *no_quote)
 	return (res);
 }
 
-static int	count(t_char *no_quote)
-{
-	int	i;
-
-	i = 0;
-	while (no_quote[i].c != '\0'
-			&& !(no_quote[i].c == '|' && no_quote[i].escaped == 0))
-		i++;
-	return (i);
-}
-
 void	ft_charcpy(t_char *to, char c, int escaped)
 {
 	to->c = c;
@@ -65,17 +54,11 @@ t_pipe	*piper(t_char *no_q)
 	while (no_q->c != '\0')
 	{
 		j = 0;
-		tpipe_init(&res[i], count(no_q));
-		if (!(res[i].no_quote))
+		res[i].fd_in = 0;
+		res[i].fd_out = 1;
+		res[i].no_quote = tpipe_fill(&no_q);
+		if (res[i++].no_quote == NULL)
 			return (pipe_clear(res));
-		while (no_q->c != '\0' && !(no_q->c == '|' && no_q->escaped == 0))
-		{
-			ft_charcpy(&res[i].no_quote[j++], no_q->c, no_q->escaped);
-			no_q++;
-		}
-		ft_charcpy(&res[i++].no_quote[j], '\0', -1);
-		if (no_q->c == '|' && no_q->escaped == 0)
-			no_q++;
 	}
 	res[i].no_quote = NULL;
 	return (res);

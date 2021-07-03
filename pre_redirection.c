@@ -19,7 +19,7 @@ static int	is_redir(t_char *c, int *i)
 
 int	redirect_sycheck(t_pipe *no_pipe)
 {
-	int flag;
+	int	flag;
 	int	i;
 
 	flag = 0;

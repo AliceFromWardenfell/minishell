@@ -17,7 +17,7 @@ static t_cmd	*new_cmd(char **argv, int fd_in, int fd_out)
 
 static int	add_cmd(t_cmd **start, t_pipe *add)
 {
-	t_cmd *temp;
+	t_cmd	*temp;
 	char	**to_add;
 
 	to_add = lexer(add->no_quote);
@@ -58,9 +58,9 @@ void	cmd_clear(t_cmd *start)
 	}
 }
 
-t_cmd *create_cmd(t_pipe *no_p)
+t_cmd	*create_cmd(t_pipe *no_p)
 {
-	int			i;
+	int		i;
 	t_cmd	*res;
 
 	i = 0;

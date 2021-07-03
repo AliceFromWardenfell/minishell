@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void flag_check(char c, unsigned char *flag)
+static void	flag_check(char c, unsigned char *flag)
 {
 	if (c == '\"' && !(*flag & 1) && !(*flag & 2))
 		*flag = *flag | 1;
@@ -12,7 +12,7 @@ static void flag_check(char c, unsigned char *flag)
 		*flag = *flag ^ 2;
 }
 
-int quote_check(char *str)
+int	quote_check(char *str)
 {
 	unsigned char	flag;
 
@@ -75,7 +75,7 @@ t_char	*unquote(char *str)
 	size_t			i;
 
 	res = (t_char *)malloc(sizeof(t_char) * (ft_strlen(str)
-			- quote_count(str) + 1));
+				- quote_count(str) + 1));
 	if (!res)
 		return (NULL);
 	i = 0;

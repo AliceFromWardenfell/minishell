@@ -11,7 +11,7 @@ static char	*get_key(t_char *no_q)
 	res = (char *)malloc(sizeof(char) * key_length(no_q) + 1);
 	if (!res)
 		return (NULL);
-	while(is_key(no_q[i].c) && no_q[i].escaped == no_q[0].escaped)
+	while (is_key(no_q[i].c) && no_q[i].escaped == no_q[0].escaped)
 	{	
 		res[j++] = no_q[i].c;
 		i++;
@@ -23,18 +23,11 @@ static char	*get_key(t_char *no_q)
 
 static char	*get_env(t_char *no_q, char **env)
 {
-	char *res;
-	char *key;
+	char	*res;
+	char	*key;
 
-	if (no_q[1].c == '?' && no_q[1].escaped == no_q[0].escaped) //заменить на нормальную функцию
-	{
-		res = (char *)malloc(2);
-		if (!res)
-			return (NULL);
-		res[0] = '1';
-		res[1] = '\0';
-		return (res);
-	}
+	if (no_q[1].c == '?' && no_q[1].escaped == no_q[0].escaped)
+		return (ft_exit_status());
 	key = get_key(no_q);
 	if (!key)
 		return (NULL);
@@ -43,9 +36,9 @@ static char	*get_env(t_char *no_q, char **env)
 		if (!ft_strncmp(*env, key, ft_strlen(key)))
 		{
 			res = ft_substr(*env, ft_strlen(key),
-						ft_strlen(&((*env)[ft_strlen(key)])));
+					ft_strlen(&((*env)[ft_strlen(key)])));
 			free(key);
-			return(res);
+			return (res);
 		}
 		env++;
 	}
@@ -80,7 +73,7 @@ static t_char	*t_transform(char *to_trans, t_char *no_q)
 	return (res);
 }
 
-static t_char *str_paste(t_char *no_q, int start, int end, char *to_paste)
+static t_char	*str_paste(t_char *no_q, int start, int end, char *to_paste)
 {
 	t_char	*res;
 	t_char	*paste;
@@ -91,7 +84,7 @@ static t_char *str_paste(t_char *no_q, int start, int end, char *to_paste)
 	if (!paste)
 		return (NULL);
 	res = (t_char *)malloc(sizeof(t_char)
-		* (start + tchar_strlen(paste) + tchar_strlen(&no_q[end]) + 1));
+			* (start + tchar_strlen(paste) + tchar_strlen(&no_q[end]) + 1));
 	if (!res)
 		return (free_return_null(paste));
 	i = -1;
@@ -123,10 +116,10 @@ t_char	*check_env(t_char *no_q, char **env)
 		if (key_check(&res[i]))
 		{
 			temp = str_paste(res, i, i + key_length(&res[i]),
-						get_env(&res[i], env));
+					get_env(&res[i], env));
 			free(res);
 			if (!temp)
-				return(NULL);
+				return (NULL);
 			res = temp;
 			i--;
 		}

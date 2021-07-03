@@ -12,7 +12,7 @@ static void	*print_r(char *to_print, void *to_return)
 
 static t_pipe	*parser_pipe(char *str)
 {
-	t_char *no_quote;
+	t_char	*no_quote;
 	t_pipe	*no_pipe;
 
 	if (!quote_check(str))
@@ -29,7 +29,7 @@ static t_pipe	*parser_pipe(char *str)
 	return (no_pipe);
 }
 
-t_cmd *parser(char *str, char **env)
+t_cmd	*parser(char *str, char **env)
 {
 	t_pipe	*no_pipe;
 	t_cmd	*cmd;
@@ -52,12 +52,12 @@ t_cmd *parser(char *str, char **env)
 	return (cmd);
 }
 
-int main (int argc, char **argv, char **env)
+int	main (int argc, char **argv, char **env)
 {
-	char *str;
-	t_cmd *cmd;
-	t_cmd *tmp;
-	int i;
+	char	*str;
+	t_cmd	*cmd;
+	t_cmd	*tmp;
+	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -68,7 +68,7 @@ int main (int argc, char **argv, char **env)
 		{
 			free(str);
 			str = readline("minishell> ");
-			continue;
+			continue ;
 		}
 		tmp = cmd;
 		while (tmp)

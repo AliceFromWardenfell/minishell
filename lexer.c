@@ -3,7 +3,7 @@
 void	*array_clear(char **ar)
 {
 	int	i;
-	
+
 	i = 0;
 	while (ar[i])
 		free(ar[i++]);
@@ -13,7 +13,7 @@ void	*array_clear(char **ar)
 
 static int	word_count(t_char *no_q)
 {
-	int res;
+	int	res;
 	int	flag;
 
 	res = 0;
@@ -68,7 +68,7 @@ char	**lexer(t_char *no_q)
 		{
 			res[i] = ft_get_word(no_q);
 			if (!res[i++])
-				return(array_clear(res));
+				return (array_clear(res));
 			flag = 1;
 		}
 		else if (ft_is_blank(no_q) && flag == 1)

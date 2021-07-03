@@ -7,7 +7,7 @@
 int	free_return_int(void *to_free, int to_return)
 {
 	free(to_free);
-	return(to_return);
+	return (to_return);
 }
 
 static int	get_heredocument(char *delimiter)
@@ -39,22 +39,22 @@ static int	get_heredocument(char *delimiter)
 
 static int	redir_output(int redir, char *path)
 {
-	int fd;
-	
+	int	fd;
+
 	if (redir == 1)
 		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (redir == 2)
+	else
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	return (fd);
 }
 
 static int	redir_input(int redir, char *path)
 {
-	int fd;
-	
+	int	fd;
+
 	if (redir == 3)
 		fd = open(path, O_RDONLY);
-	else if (redir == 4)
+	else
 		fd = get_heredocument(path);
 	return (fd);
 }

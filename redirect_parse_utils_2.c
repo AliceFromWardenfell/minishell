@@ -44,7 +44,7 @@ t_char	*redir_env(t_char *no_q, char **env, int redir)
 {
 	t_char	*temp;
 
-	if (redir != 4)
+	if (no_q && redir != 4)
 	{
 		temp = check_env(no_q, env);
 		if (!temp)
@@ -52,6 +52,7 @@ t_char	*redir_env(t_char *no_q, char **env, int redir)
 			free(no_q);
 			return (NULL);
 		}
+		free(no_q);
 		return (temp);
 	}
 	return (no_q);

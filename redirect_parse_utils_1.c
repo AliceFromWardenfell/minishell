@@ -11,7 +11,7 @@ t_char	*get_redir_path(t_char *no_quote, int i)
 {
 	int		j;
 	t_char	*res;
-	
+
 	while (no_quote[i].c && ft_is_redir(&no_quote[i]))
 		i++;
 	while (no_quote[i].c && ft_is_blank(&no_quote[i]))
@@ -63,7 +63,7 @@ static t_char	*tchar_cut(t_char *no_q, int start, int end)
 t_char	*get_new_noq(t_char *no_quote, int i)
 {
 	int		j;
-	
+
 	j = i;
 	while (ft_is_redir(&no_quote[j]))
 		j++;

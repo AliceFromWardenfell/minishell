@@ -53,10 +53,7 @@ static int	redirection_process(t_pipe *no_p, int i, char **env)
 	int		j;
 
 	redir = get_redir(no_p->no_quote, i);
-	temp = get_redir_path(no_p->no_quote, i);
-	if (!temp)
-		return (0);
-	temp = redir_env(temp, env, redir);
+	temp = redir_env(get_redir_path(no_p->no_quote, i), env, redir);
 	if (!temp)
 		return (0);
 	if (!redirection_check(temp))
@@ -70,11 +67,12 @@ static int	redirection_process(t_pipe *no_p, int i, char **env)
 	temp = get_new_noq(no_p->no_quote, i);
 	if (!temp)
 		return (0);
+	free(no_p->no_quote);
 	no_p->no_quote = temp;
 	return (1);
 }
 
-static int redirection_get(t_pipe *no_p, char **env)
+static int	redirection_get(t_pipe *no_p, char **env)
 {
 	int	i;
 	int	j;
@@ -99,9 +97,9 @@ int	redirection_parse(t_pipe *no_p, char **env)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
-	while(no_p[i].no_quote)
+	while (no_p[i].no_quote)
 	{
 		j = redirection_get(&no_p[i], env);
 		if (j == 0)
