@@ -7,14 +7,26 @@ int		do_fork(t_cmd *cmd)
 	pid = fork();
 	if (pid < 0)
 		return (global_error());
-	
+
 	if (!pid)
-	{
 		if (execve(cmd->argv[0], cmd->argv, NULL) < 0)
 			return (global_error());
-	}
 	if (wait(NULL) < 0)
 		return (global_error());
+	return (0);
+}
+
+int		execute(t_cmd *cmd) //check if argv[0] even exists, then do things!
+{
+	int		builtin;
+
+	builtin = is_builtin(cmd);
+	if (!builtin)
+		if (do_fork(cmd))
+			return (1);
+	if (builtin)
+		if (do_builtin(cmd, builtin))
+			return (1);
 	return (0);
 }
 
@@ -34,8 +46,8 @@ int		do_pipe(t_cmd *cmd)
 	return (0);
 }
 
-int		core_loop(t_cmd *cmd)
-{
+int		core_loop(t_cmd *cmd) // make static
+{	
 	while (cmd)
 	{
 		if (dup2(cmd->fd_in, 0) < 0) // init has to be on 0
@@ -53,7 +65,7 @@ int		core_loop(t_cmd *cmd)
 			if (close(cmd->fd_out) < 0)
 				return (global_error());
 		
-		if (do_fork(cmd))
+		if (execute(cmd))
 			return (1);
 		
 		cmd = cmd->next;
