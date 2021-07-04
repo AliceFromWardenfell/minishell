@@ -45,7 +45,6 @@ t_pipe	*piper(t_char *no_q)
 {
 	t_pipe	*res;
 	int		i;
-	int		j;
 
 	res = (t_pipe *)malloc(sizeof(t_pipe) * (pipe_count(no_q) + 2));
 	if (!res)
@@ -53,7 +52,6 @@ t_pipe	*piper(t_char *no_q)
 	i = 0;
 	while (no_q->c != '\0')
 	{
-		j = 0;
 		res[i].fd_in = 0;
 		res[i].fd_out = 1;
 		res[i].no_quote = tpipe_fill(&no_q);
