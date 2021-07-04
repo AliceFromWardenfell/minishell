@@ -17,8 +17,8 @@ int		echo_b(t_cmd *cmd)
 		printf("%s", cmd->argv[i]);
 		if (cmd->argv[i + 1])
 			printf(" ");
-		else if (!n)
-			printf("\n");
 	}
+	if (!n)
+		printf("\n");
 	return (0);
 }
