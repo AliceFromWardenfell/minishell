@@ -78,7 +78,8 @@ int	executor(t_cmd *cmd, char **envp)
 	t_data	d;
 	errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
 
-	d.env = envp; // but dup it before
+	d.env = envp;// if (dup_envp(envp))
+	// 	return (1); //wait for handle $(VAL)
 	d.backup.fd_out = dup(1); // has to be initialize to -1
 	if (d.backup.fd_out < 0)
 		return (global_error(&d));

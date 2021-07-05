@@ -43,6 +43,8 @@ int		global_error(t_data *d);
 int		is_builtin(t_cmd *cmd);
 int		do_builtin(t_cmd *cmd, t_data *d, int builtin);
 int		echo_b(t_cmd *cmd);
+int		cd_b(t_cmd *cmd, t_data *d);
 int		pwd_b(t_data *d);
+char	**dup_envp(char **envp);
 
 #endif

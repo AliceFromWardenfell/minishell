@@ -10,7 +10,9 @@ SRCS	=	executor.c \
 			global_error.c \
 			builtins.c \
 			echo.c \
+			cd.c \
 			pwd.c \
+			add_funcs.c \
 			main_for_executor.c #tmp file
 
 OBJS	=	${SRCS:.c=.o}

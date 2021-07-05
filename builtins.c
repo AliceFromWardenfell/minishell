@@ -7,8 +7,8 @@ int	do_builtin(t_cmd *cmd, t_data *d, int builtin)
 	ret = 0;
 	if (builtin == ECHO)
 		ret = echo_b(cmd);
-	// if (builtin == CD)
-	// 	ret = cd_b();
+	if (builtin == CD)
+		ret = cd_b(cmd, d);
 	if (builtin == PWD)
 		ret = pwd_b(d);
 	// if (builtin == EXPORT)

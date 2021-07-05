@@ -11,7 +11,7 @@ int	pwd_b(t_data *d)
 		return (0);
 	}
 	printf("%s\n", buf);
-	d->env = NULL;// add changing of ENV-value PWD
+	d->env = NULL; // add changing of ENV-value PWD
 	free(buf);
 	return (0);
 }
