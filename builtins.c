@@ -1,6 +1,6 @@
 #include "executor.h"
 
-int		do_builtin(t_cmd *cmd, int builtin)
+int	do_builtin(t_cmd *cmd, t_data *d, int builtin)
 {
 	int		ret;
 
@@ -9,8 +9,8 @@ int		do_builtin(t_cmd *cmd, int builtin)
 		ret = echo_b(cmd);
 	// if (builtin == CD)
 	// 	ret = cd_b();
-	// if (builtin == PWD)
-	// 	ret = pwd_b();
+	if (builtin == PWD)
+		ret = pwd_b(d);
 	// if (builtin == EXPORT)
 	// 	ret = export_b();
 	// if (builtin == UNSET)
@@ -22,21 +22,21 @@ int		do_builtin(t_cmd *cmd, int builtin)
 	return (ret);
 }
 
-int		is_builtin(t_cmd *cmd)
+int	is_builtin(t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->argv[0], "echo"))
-		return(ECHO);
+		return (ECHO);
 	if (!ft_strcmp(cmd->argv[0], "cd"))
-		return(CD);
+		return (CD);
 	if (!ft_strcmp(cmd->argv[0], "pwd"))
-		return(PWD);
+		return (PWD);
 	if (!ft_strcmp(cmd->argv[0], "export"))
-		return(EXPORT);
+		return (EXPORT);
 	if (!ft_strcmp(cmd->argv[0], "unset"))
-		return(UNSET);
+		return (UNSET);
 	if (!ft_strcmp(cmd->argv[0], "env"))
-		return(ENV);
+		return (ENV);
 	if (!ft_strcmp(cmd->argv[0], "exit"))
-		return(EXIT);
+		return (EXIT);
 	return (0);
 }

@@ -18,26 +18,31 @@
 # define ENV 6
 # define EXIT 7
 
-typedef struct		s_cmd
+typedef struct s_cmd
 {
-	char**			argv;
+	char			**argv;
 	int				fd_out;
 	int				fd_in;
-	struct s_cmd*	next;
+	struct s_cmd	*next;
 }					t_cmd;
 
-typedef struct		s_backup
+typedef struct s_data
+{
+	struct s_backup	*backup;
+	char			**env;
+}					t_data;
+
+typedef struct s_backup
 {
 	int				fd_out;
 	int				fd_in;
 }					t_backup;
 
-t_backup			g_backup;
-
-int		executor(t_cmd *cmd);
-int		global_error(void);
+int		executor(t_cmd *cmd, char **env);
+int		global_error(t_data *d);
 int		is_builtin(t_cmd *cmd);
-int		do_builtin(t_cmd *cmd, int builtin);
+int		do_builtin(t_cmd *cmd, t_data *d, int builtin);
 int		echo_b(t_cmd *cmd);
+int		pwd_b(t_data *d);
 
 #endif

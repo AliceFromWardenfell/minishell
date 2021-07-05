@@ -1,11 +1,14 @@
 #include "executor.h"
 
-int		main(void)
+int		main(int argc, char **argv, char **envp)
 {
 	t_cmd	cmd0;
 	t_cmd	cmd1;
 	t_cmd	cmd2;
 	t_cmd	cmd3;
+
+	if (argc != 1)
+		printf("%s: There is no spoon.\n", argv[0]);
 
 	cmd0.next = NULL;
 
@@ -32,16 +35,12 @@ int		main(void)
 	cmd3.fd_in	= 0;
 
 	cmd0.argv = (char **)malloc(6 * sizeof(char*));
-	cmd0.argv[0] = "echo";
-	cmd0.argv[1] = "My";
-	cmd0.argv[2] = "name";
-	cmd0.argv[3] = "is";
-	cmd0.argv[4] = "Greg!";
-	cmd0.argv[5] = NULL;
+	cmd0.argv[0] = "pwd";
+	cmd0.argv[1] = NULL;
 	cmd0.fd_out = 1;
 	cmd0.fd_in = 0;
 
-	executor(&cmd0);
+	executor(&cmd0, envp);
 
 	return (0);
 }
