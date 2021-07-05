@@ -79,24 +79,24 @@ int	executor(t_cmd *cmd, char **envp)
 	errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
 
 	d.env = envp; // but dup it before
-	d.backup->fd_out = dup(1); // has to be initialize to -1
-	if (d.backup->fd_out < 0)
+	d.backup.fd_out = dup(1); // has to be initialize to -1
+	if (d.backup.fd_out < 0)
 		return (global_error(&d));
 
-	d.backup->fd_in = dup(0); // has to be initialize to -1
-	if (d.backup->fd_in < 0)
+	d.backup.fd_in = dup(0); // has to be initialize to -1
+	if (d.backup.fd_in < 0)
 		return (global_error(&d));
 
 	if (core_loop(cmd, &d))
 		return (1);
 
-	if (dup2(d.backup->fd_out, 1) < 0)
+	if (dup2(d.backup.fd_out, 1) < 0)
 		return (global_error(&d));
-	if (close(d.backup->fd_out) < 0)
+	if (close(d.backup.fd_out) < 0)
 		return (global_error(&d));
-	if (dup2(d.backup->fd_in, 0) < 0)
+	if (dup2(d.backup.fd_in, 0) < 0)
 		return (global_error(&d));
-	if (close(d.backup->fd_in) < 0)
+	if (close(d.backup.fd_in) < 0)
 		return (global_error(&d));
 
 	printf("*FINISHED*\n");

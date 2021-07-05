@@ -26,17 +26,17 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-typedef struct s_data
-{
-	struct s_backup	*backup;
-	char			**env;
-}					t_data;
-
 typedef struct s_backup
 {
 	int				fd_out;
 	int				fd_in;
 }					t_backup;
+
+typedef struct s_data
+{
+	struct s_backup	backup;
+	char			**env;
+}					t_data;
 
 int		executor(t_cmd *cmd, char **env);
 int		global_error(t_data *d);

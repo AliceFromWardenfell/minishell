@@ -42,5 +42,9 @@ int		main(int argc, char **argv, char **envp)
 
 	executor(&cmd0, envp);
 
+	free(cmd0.argv);
+	free(cmd1.argv);
+	free(cmd2.argv);
+	free(cmd3.argv);
 	return (0);
 }
