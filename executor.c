@@ -73,13 +73,18 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
-int	executor(t_cmd *cmd, char **envp)
+int	executor(t_cmd *cmd, const char **envp)
 {
 	t_data	d;
 	errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
 
-	d.env = envp;// if (dup_envp(envp))
-	// 	return (1); //wait for handle $(VAL)
+	if (dup_envp(&d, envp))		// if (dup_envp(envp))
+		return (1);							// 	return (1); //wait for handle $(VAL)
+	
+	print_2d((char **)envp);
+	printf("*************************\n");
+	print_2d(d.env);
+
 	d.backup.fd_out = dup(1); // has to be initialize to -1
 	if (d.backup.fd_out < 0)
 		return (global_error(&d));

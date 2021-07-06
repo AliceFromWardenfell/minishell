@@ -40,7 +40,7 @@ int		main(int argc, char **argv, char **envp)
 	cmd0.fd_out = 1;
 	cmd0.fd_in = 0;
 
-	executor(&cmd0, envp);
+	executor(&cmd0, (const char **)envp);
 
 	free(cmd0.argv);
 	free(cmd1.argv);
