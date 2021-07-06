@@ -89,6 +89,8 @@ int	executor(t_cmd *cmd, const char **envp)
 	if (dup_envp(&d, envp))		// if (dup_envp(envp))
 		return (1);							// 	return (1); //wait for handle $(VAL)
 	
+	change_env_val(&d, "TEST=", "I'm a gangsta!");
+	
 	print_2d((char **)envp);
 	printf("*************************\n");
 	print_2d(d.env);

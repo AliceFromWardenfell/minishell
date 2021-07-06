@@ -9,6 +9,7 @@ int		change_env_val(t_data *d, char *key, char *val)
 	new_line = ft_strjoin(key, val); // probably need to add \n at the end
 	if (!new_line)
 		return(1); // ERROR
+	i = -1;
 	while(d->env[++i])
 	{
 		if (!ft_strncmp(key, d->env[i], ft_strlen(key)))
