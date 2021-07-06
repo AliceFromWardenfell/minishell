@@ -1,9 +1,20 @@
 #include "executor.h"
 
+void	clean(t_data *d)
+{
+	int		i;
+
+	i = -1;
+	while (++i < d->amount_of_alloc_lines + 1)
+		free(d->env[i]);
+	if (d->env) //has to be init on NULL
+		free(d->env);
+}
+
 int		global_error(t_data *d)
 {
-	//here will be all frees and maybe closes of unclosed fds
-	
+	clean(d);
+
 	if (d->backup.fd_out != -1)
 	{
 		if (dup2(d->backup.fd_out, 1) < 0)

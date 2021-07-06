@@ -73,11 +73,19 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
+void	tmp_init(t_data *d)
+{
+	d->env = NULL;
+	d->amount_of_alloc_lines = 0;
+}
+
 int	executor(t_cmd *cmd, const char **envp)
 {
 	t_data	d;
 	errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
 
+	tmp_init(&d);
+	
 	if (dup_envp(&d, envp))		// if (dup_envp(envp))
 		return (1);							// 	return (1); //wait for handle $(VAL)
 	
@@ -105,6 +113,7 @@ int	executor(t_cmd *cmd, const char **envp)
 	if (close(d.backup.fd_in) < 0)
 		return (global_error(&d));
 
+	clean(&d);
 	printf("*FINISHED*\n");
 	return (0);
 }

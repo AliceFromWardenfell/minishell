@@ -36,16 +36,18 @@ typedef struct s_data
 {
 	struct s_backup	backup;
 	char			**env;
+	int				amount_of_alloc_lines; // has to be init on 0
 }					t_data;
 
 int		executor(t_cmd *cmd, const char **envp);
-int		global_error(t_data *d);
 int		is_builtin(t_cmd *cmd);
 int		do_builtin(t_cmd *cmd, t_data *d, int builtin);
 int		echo_b(t_cmd *cmd);
 int		cd_b(t_cmd *cmd, t_data *d);
 int		pwd_b(t_data *d);
 int		dup_envp(t_data *d, const char **envp);
+int		global_error(t_data *d);
+void	clean(t_data *d);
 void	print_2d(char **arr); // remove
 
 #endif
