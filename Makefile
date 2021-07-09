@@ -12,7 +12,8 @@ SRCS	=	executor.c \
 			echo.c \
 			cd.c \
 			pwd.c \
-			envp.c \
+			env.c \
+			env_funcs.c \
 			add_funcs.c \
 			main_for_executor.c #tmp file
 

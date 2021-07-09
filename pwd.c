@@ -7,7 +7,7 @@ int	pwd_b(void)
 	buf = getcwd(NULL, 0);
 	if (!buf)
 	{
-		printf("%s\n", strerror(errno)); //simulate error on stdout
+		printf("minishell: pwd: %s\n", strerror(errno)); //simulate error on stdout
 		return (0);
 	}
 	printf("%s\n", buf);
