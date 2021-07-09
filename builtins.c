@@ -8,9 +8,17 @@ int	do_builtin(t_cmd *cmd, t_data *d, int builtin)
 	if (builtin == ECHO)
 		ret = echo_b(cmd);
 	if (builtin == CD)
+	{
+		// printf("\n*************************\n\n");
+		// print_2d(d->env);
+		// printf("\n*************************\n\n");
 		ret = cd_b(cmd, d);
+		// printf("\n*************************\n\n");
+		// print_2d(d->env);
+		// printf("\n*************************\n\n");
+	}
 	if (builtin == PWD)
-		ret = pwd_b(d);
+		ret = pwd_b();
 	// if (builtin == EXPORT)
 	// 	ret = export_b();
 	// if (builtin == UNSET)

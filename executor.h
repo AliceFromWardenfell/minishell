@@ -44,10 +44,12 @@ int		is_builtin(t_cmd *cmd);
 int		do_builtin(t_cmd *cmd, t_data *d, int builtin);
 int		echo_b(t_cmd *cmd);
 int		cd_b(t_cmd *cmd, t_data *d);
-int		pwd_b(t_data *d);
+int		pwd_b(void);
 int		dup_envp(t_data *d, const char **envp);
 int		change_env_val(t_data *d, char *key, char *val);
+int		get_env_val(t_data *d, char *key, char **val);
 int		global_error(t_data *d);
+int		builtin_error(char *builtin, char *to_free1, char *to_free2);
 void	clean(t_data *d);
 void	print_2d(char **arr); // remove
 

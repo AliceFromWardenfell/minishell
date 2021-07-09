@@ -36,7 +36,8 @@ int		main(int argc, char **argv, char **envp)
 
 	cmd0.argv = (char **)malloc(6 * sizeof(char*));
 	cmd0.argv[0] = "cd";
-	cmd0.argv[1] = NULL;
+	cmd0.argv[1] = "-";
+	cmd0.argv[2] = NULL;
 	cmd0.fd_out = 1;
 	cmd0.fd_in = 0;
 

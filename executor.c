@@ -73,7 +73,7 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
-void	tmp_init(t_data *d)
+void	tmp_init(t_data *d) // move in big init
 {
 	d->env = NULL;
 	d->amount_of_alloc_lines = 0;
@@ -82,6 +82,7 @@ void	tmp_init(t_data *d)
 int	executor(t_cmd *cmd, const char **envp)
 {
 	t_data	d;
+
 	errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
 
 	tmp_init(&d);
@@ -89,12 +90,6 @@ int	executor(t_cmd *cmd, const char **envp)
 	if (dup_envp(&d, envp))		// if (dup_envp(envp))
 		return (1);							// 	return (1); //wait for handle $(VAL)
 	
-	change_env_val(&d, "TEST=", "I'm a gangsta!");
-	
-	print_2d((char **)envp);
-	printf("*************************\n");
-	print_2d(d.env);
-
 	d.backup.fd_out = dup(1); // has to be initialize to -1
 	if (d.backup.fd_out < 0)
 		return (global_error(&d));
@@ -105,7 +100,6 @@ int	executor(t_cmd *cmd, const char **envp)
 
 	if (core_loop(cmd, &d))
 		return (1);
-
 	if (dup2(d.backup.fd_out, 1) < 0)
 		return (global_error(&d));
 	if (close(d.backup.fd_out) < 0)

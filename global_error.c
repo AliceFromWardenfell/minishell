@@ -1,5 +1,15 @@
 #include "executor.h"
 
+int	builtin_error(char *builtin, char *to_free1, char *to_free2)
+{
+	if (to_free1)
+		free(to_free1);
+	if (to_free2)
+		free(to_free2);
+	printf("minishell: %s: %s\n", builtin, strerror(errno)); // add check on wether or not errno == 0 before print //simulate error on stdout to see if syntax like in bash
+	return (1);
+}
+
 void	clean(t_data *d)
 {
 	int		i;
@@ -13,7 +23,7 @@ void	clean(t_data *d)
 
 int		global_error(t_data *d)
 {
-	clean(d);
+	clean(d); // this clean has to be only when we exit from minishell (now its here because of valgrind)
 
 	if (d->backup.fd_out != -1)
 	{
@@ -32,6 +42,6 @@ int		global_error(t_data *d)
 	}
 	
 	printf("errno is %d\n", errno); // remove
-	printf("%s\n", strerror(errno));
+	printf("%s\n", strerror(errno)); // add check on wether or not errno == 0 before print
 	return (1);
 }
