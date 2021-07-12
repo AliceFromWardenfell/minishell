@@ -3,6 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
+#include <signal.h>
 
 static void	*print_r(char *to_print, void *to_return)
 {
@@ -61,6 +62,8 @@ int	main (int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	signal(SIGINT, &sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 	str = readline("minishell> ");
 	while (str)
 	{
@@ -77,10 +80,6 @@ int	main (int argc, char **argv, char **env)
 			while (tmp->argv[i])
 				printf("%s\n", tmp->argv[i++]);
 			printf("in:%d,  out:%d\n", tmp->fd_in, tmp->fd_out);
-			if (tmp->fd_in != 0)
-				close(tmp->fd_in);
-			if (tmp->fd_out != 1)
-				close(tmp->fd_out);
 			tmp = tmp->next;
 		}
 		cmd_clear(cmd);

@@ -23,13 +23,15 @@ static int	get_heredocument(char *delimiter)
 	if (fd == -1)
 		return (free_return_int(path, -1));
 	str = readline("> ");
-	while (str && ft_strncmp(str, delimiter, ft_strlen(str)))
+	while (str && ft_strncmp(str, delimiter, ft_strlen(delimiter) + 1))
 	{
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
 		str = readline("> ");
 	}
+	if (!str)
+		ft_putstr_fd("warning: here-document delimited by end-of-file\n", 1);
 	free(str);
 	close(fd);
 	fd = open(path, O_RDONLY);
