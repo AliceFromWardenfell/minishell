@@ -53,8 +53,9 @@ static int	add_line(t_cmd *cmd, t_data *d, int argv_num)
 			return (builtin_error("export", NULL, NULL));
 		}
 	}
-	new_arr[i] = cmd->argv[argv_num];
+	new_arr[i] = ft_strdup(cmd->argv[argv_num]);
 	new_arr[++i] = NULL;
+	d->amount_of_alloc_lines++;
 	clean(d);
 	d->env = new_arr;
 	return (0);
