@@ -46,6 +46,7 @@ int		echo_b(t_cmd *cmd);
 int		cd_b(t_cmd *cmd, t_data *d);
 int		pwd_b(void);
 int		env_b(t_data *d);
+int		export_b(t_cmd *cmd, t_data *d);
 int		dup_envp(t_data *d, const char **envp);
 int		change_env_val(t_data *d, char *key, char *val);
 int		get_env_val(t_data *d, char *key, char **val);

@@ -13,6 +13,7 @@ SRCS	=	executor.c \
 			cd.c \
 			pwd.c \
 			env.c \
+			export.c \
 			env_funcs.c \
 			add_funcs.c \
 			main_for_executor.c #tmp file
