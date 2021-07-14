@@ -25,6 +25,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+t_cmd	*parser(char *str, char **env);
 int		quote_check(char *str);
 t_char	*unquote(char *str);
 int		ft_is_blank(t_char *c);

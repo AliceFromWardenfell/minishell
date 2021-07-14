@@ -2,9 +2,6 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>
 
 static void	*print_r(char *to_print, void *to_return)
 {
@@ -52,54 +49,4 @@ t_cmd	*parser(char *str, char **env)
 	if (!cmd)
 		return (print_r("Malloc failed\n", NULL));
 	return (cmd);
-}
-
-int	main (int argc, char **argv, char **env)
-{
-	char	*str;
-	t_cmd	*cmd;
-	t_cmd	*tmp;
-	int		i;
-	int 	id;
-
-	(void)argc;
-	(void)argv;
-	signal(SIGINT, &sig_handler);
-	signal(SIGQUIT, SIG_IGN);
-	str = readline("minishell> ");
-	while (str)
-	{
-		if (!(cmd = parser(str, env)))
-		{
-			free(str);
-			str = readline("minishell> ");
-			continue ;
-		}
-		tmp = cmd;
-		signal(SIGINT, SIG_IGN);
-		id = 0;
-		if (tmp->argv[0] && !ft_strncmp(tmp->argv[0], "a.exe", 5))
-		{
-			id = fork();
-			if (id == 0)
-				execve("a.exe", tmp->argv, env);
-			else
-				wait(NULL);
-		}
-		if (id)
-			printf("I'm a parent\n");
-		while (tmp)
-		{
-			i = 0;
-			while (tmp->argv[i])
-				printf("%s\n", tmp->argv[i++]);
-			printf("in:%d,  out:%d\n", tmp->fd_in, tmp->fd_out);
-			tmp = tmp->next;
-		}
-		cmd_clear(cmd);
-		free(str);
-		signal(SIGINT, &sig_handler);
-		str = readline("minishell> ");
-	}
-	return (0);
 }
