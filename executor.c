@@ -11,6 +11,13 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 	if (!pid)
 		if (execve(cmd->argv[0], cmd->argv, NULL) < 0)
 			return (global_error(d)); // if execve returns < 0, we don't need to abort ALL while. We need to continue execute the commands!
+	
+	// if (pid)
+	// {
+	// 	signal(SIGINT, SIG_DFL);
+	// 	signal(SIGQUIT, SIG_DFL);
+	// }
+
 	if (wait(NULL) < 0)
 		return (global_error(d));
 	return (0);
@@ -110,6 +117,6 @@ int	executor(t_cmd *cmd, const char **envp)
 		return (global_error(&d));
 
 	clean(&d);
-	printf("*FINISHED*\n");
+	// printf("*FINISHED*\n"); //remove
 	return (0);
 }
