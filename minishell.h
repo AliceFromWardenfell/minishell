@@ -59,5 +59,6 @@ char	**lexer(t_char *no_q);
 void	cmd_clear(t_cmd *start);
 t_cmd	*create_cmd(t_pipe *no_p);
 void	sig_handler(int sig);
+int		executor(t_cmd *cmd, const char **envp);
 
 #endif
