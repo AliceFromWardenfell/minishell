@@ -1,10 +1,10 @@
 NAME	=	minishell
 
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -g#remove g-flag
-HDRS	=	executor.h
+CFLAGS	=	-Wall -Wextra -Werror -g # remove g-flag
+HDRS	=	executor.h minishell.h
 LIBS	= 	-lreadline
-LIBFT	=	-L executor_branch/libft -lft
+LIBFT	=	-L libft -lft
 
 SRCS	=	executor.c \
 			global_error.c \
@@ -16,7 +16,27 @@ SRCS	=	executor.c \
 			export.c \
 			env_funcs.c \
 			add_funcs.c \
-			main_for_executor.c #tmp file
+			\
+			lexer.c \
+			parser.c \
+			signal.c \
+			quote.c \
+			env_parse.c \
+			env_parse_utils_1.c \
+			env_parse_utils_2.c \
+			parser_lst_utils.c \
+			pre-pipe.c \
+			pipe_parse.c \
+			pipe_parse_utils.c \
+			pre_redirection.c \
+			redirect_get.c \
+			redirect_get_utils.c \
+			redirect_parse.c \
+			redirect_parse_utils_1.c \
+			redirect_parse_utils_2.c \
+			\
+			minishell.c # tmp-main file, remove.
+			
 
 OBJS	=	${SRCS:.c=.o}
 
@@ -28,10 +48,10 @@ RM		=	rm -f
 all:		${NAME}
 
 $(NAME):	${OBJS} ${HDRS} ${LIBS}
-			$(MAKE) -C executor_branch/libft
+			$(MAKE) -C libft
 			${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} -o ${NAME} 
 
-build:		all clean
+build:		all clean # remove.
 
 clean:
 			${RM} ${OBJS}
@@ -39,8 +59,8 @@ clean:
 fclean:		clean
 			${RM} ${NAME}
 
-lftclean:
-			$(MAKE) clean -C executor_branch/libft
+lftclean: # remove?
+			$(MAKE) clean -C libft
 
 re:			fclean all
 
