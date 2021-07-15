@@ -1,11 +1,7 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-<<<<<<< HEAD
-# include "executor_branch_files/libft/libft.h"
-=======
 # include "libft/libft.h"
->>>>>>> c84514542fb96b715e87a1ea229dd56a4689ba53
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
