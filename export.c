@@ -1,6 +1,6 @@
 #include "executor.h"
 
-static int	key_exist(t_data *d, char *key, int	*line_to_replace)
+int	key_exist(t_data *d, char *key, int	*line_num)
 {
 	int		i;
 	int		key_len;
@@ -10,7 +10,7 @@ static int	key_exist(t_data *d, char *key, int	*line_to_replace)
 	while (d->env[++i])
 		if (!strncmp(d->env[i], key, key_len))
 		{
-			*line_to_replace = i;
+			*line_num = i;
 			return (1);
 		}
 	return (0);
@@ -72,8 +72,6 @@ int	export_b(t_cmd *cmd, t_data *d)
 	i = 0;
 	ret_status = 0;
 	line_to_replace = -1;
-	print_2d(d->env);
-	printf("\n");
 	while (cmd->argv[++i])
 	{
 		argv_cpy = ft_strdup(cmd->argv[i]);
@@ -88,6 +86,5 @@ int	export_b(t_cmd *cmd, t_data *d)
 		if (ret_status)
 			return (ret_status);
 	}
-	print_2d(d->env);
 	return (0);
 }

@@ -37,7 +37,7 @@ int		main(int argc, char **argv, char **envp)
 	cmd0.argv = (char **)malloc(6 * sizeof(char*));
 	cmd0.argv[0] = "export";
 	cmd0.argv[1] = "TEST1=111";
-	cmd0.argv[2] = "TEST2=222";
+	cmd0.argv[2] = "TEST2";
 	cmd0.argv[3] = "TEST3=333";
 	cmd0.argv[4] = NULL;
 	cmd0.fd_out = 1;

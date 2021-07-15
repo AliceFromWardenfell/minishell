@@ -4,7 +4,7 @@ CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror -g#remove g-flag
 HDRS	=	executor.h
 LIBS	= 	-lreadline
-LIBFT	=	-L libft -lft
+LIBFT	=	-L executor_branch/libft -lft
 
 SRCS	=	executor.c \
 			global_error.c \
@@ -28,7 +28,7 @@ RM		=	rm -f
 all:		${NAME}
 
 $(NAME):	${OBJS} ${HDRS} ${LIBS}
-			$(MAKE) -C libft
+			$(MAKE) -C executor_branch/libft
 			${CC} ${CFLAGS} ${OBJS} ${LIBS} ${LIBFT} -o ${NAME} 
 
 build:		all clean
@@ -40,7 +40,7 @@ fclean:		clean
 			${RM} ${NAME}
 
 lftclean:
-			$(MAKE) clean -C libft
+			$(MAKE) clean -C executor_branch/libft
 
 re:			fclean all
 

@@ -1,7 +1,7 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include "libft/libft.h"
+# include "executor_branch/libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -47,6 +47,8 @@ int		cd_b(t_cmd *cmd, t_data *d);
 int		pwd_b(void);
 int		env_b(t_data *d);
 int		export_b(t_cmd *cmd, t_data *d);
+
+int		key_exist(t_data *d, char *key, int	*line_num);
 int		dup_envp(t_data *d, const char **envp);
 int		change_env_val(t_data *d, char *key, char *val);
 int		get_env_val(t_data *d, char *key, char **val);
