@@ -117,6 +117,6 @@ int	executor(t_cmd *cmd, const char **envp)
 		return (global_error(&d));
 
 	clean(&d);
-	printf("*FINISHED*\n");
+	// printf("*FINISHED*\n"); //remove
 	return (0);
 }
