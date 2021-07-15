@@ -14,7 +14,7 @@ int	dup_envp(t_data *d, const char **envp)
 	while (envp[++i])
 	{
 		d->amount_of_alloc_lines = i;
-		d->env[i] = (char *)malloc((ft_strlen(envp[i]) + 1) * sizeof(char)); //strlen has to be protected
+		d->env[i] = (char *)malloc((ft_strlen(envp[i]) + 1) * sizeof(char)); //strlen has to be protected (not really)
 		if (!d->env[i])
 			return (global_error(d));
 		ft_strlcpy(d->env[i], envp[i], ft_strlen(envp[i]) + 1);
