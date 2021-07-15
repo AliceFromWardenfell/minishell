@@ -22,7 +22,7 @@ int	main (int argc, char **argv, char **env)
 			continue ;
 		}
 		signal(SIGINT, SIG_IGN);
-		//executor
+		executor(cmd, (const char **)env); // check ret on errros
 		cmd_clear(cmd);
 		free(str);
 		signal(SIGINT, &sig_handler);
