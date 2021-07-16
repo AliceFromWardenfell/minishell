@@ -6,5 +6,5 @@ void	print_2d(char **arr) //tmp func
 
 	i = -1;
 	while (arr[++i])
-		printf("%s\n", arr[i]);
+		printf("%d. %s\n", i, arr[i]);
 }

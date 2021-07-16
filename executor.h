@@ -9,6 +9,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
+# include <dirent.h>
 
 # define ECHO 1
 # define CD 2
@@ -40,6 +41,7 @@ typedef struct s_data
 }					t_data;
 
 int		executor(t_cmd *cmd, const char **envp);
+int		has_slash(char *str); // make static
 int		is_builtin(t_cmd *cmd);
 int		do_builtin(t_cmd *cmd, t_data *d, int builtin);
 int		echo_b(t_cmd *cmd);
@@ -56,5 +58,5 @@ int		global_error(t_data *d);
 int		builtin_error(char *builtin, char *to_free1, char *to_free2);
 void	clean(t_data *d);
 void	print_2d(char **arr); // remove
-
+char	*search_for_exec(t_data *d, char *program_name);
 #endif

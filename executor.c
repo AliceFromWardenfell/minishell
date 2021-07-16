@@ -3,15 +3,29 @@
 static int	do_fork(t_cmd *cmd, t_data *d)
 {
 	int		pid;
+	char	*path_to_exec;
 
+	path_to_exec = ft_strrchr(cmd->argv[0], '/');
+	if (!path_to_exec)
+		path_to_exec = cmd->argv[0];
+	else
+		path_to_exec++;
+	
+	if (!has_slash(cmd->argv[0]))
+		path_to_exec = search_for_exec(d, path_to_exec); //handle errors
+	if (!path_to_exec)
+		return (global_error(d));
+	
+
+	
 	pid = fork();
 	if (pid < 0)
 		return (global_error(d));
 
 	if (!pid)
-		if (execve(cmd->argv[0], cmd->argv, NULL) < 0)
+		if (execve(path_to_exec, cmd->argv, d->env) < 0)
 			exit(global_error(d)); // if execve returns < 0, we don't need to abort ALL while. We need to continue execute the commands!
-	
+
 	// if (pid)
 	// {
 	// 	signal(SIGINT, SIG_DFL);

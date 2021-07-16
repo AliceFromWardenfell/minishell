@@ -7,6 +7,7 @@ LIBS	= 	-lreadline
 LIBFT	=	-L libft -lft
 
 SRCS	=	executor.c \
+			search_for_exec.c \
 			global_error.c \
 			builtins.c \
 			echo.c \
