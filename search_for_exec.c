@@ -1,4 +1,4 @@
-#include "executor.h"
+#include "minishell.h"
 
 static char	*custom_strjoin(char const *s1, char const *s2)
 {
@@ -27,7 +27,7 @@ static char	*custom_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-int		has_slash(char *str)
+int		has_slash(char *str) // make static
 {
 	int		i;
 
@@ -68,13 +68,14 @@ char	*search_for_exec(t_data *d, char *program_name)
 			if (!ft_strcmp(ent->d_name, program_name))
 			{
 				val = custom_strjoin(path[i], program_name);
+				clean_2d_arr(path);
 				if (!val)
 					return (NULL);
 				printf("result will be: \"%s\"\n", val);
 				return (val);
 			}
 		}
-
 	}
+	clean_2d_arr(path);
 	return(program_name);
 } // printf("%d. dir:\"%s\": %s\n", i, path[i], ent->d_name);

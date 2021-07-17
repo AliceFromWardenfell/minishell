@@ -1,4 +1,4 @@
-#include "executor.h"
+#include "minishell.h"
 
 int	pwd_b(void) 
 {

@@ -1,4 +1,4 @@
-#include "executor.h"
+#include "minishell.h"
 
 int	dup_envp(t_data *d, const char **envp)
 {

@@ -1,4 +1,4 @@
-#include "executor.h"
+#include "minishell.h"
 
 static int	argc_is_1(t_data *d)
 {
@@ -62,7 +62,6 @@ static int	cd_in_path(t_cmd *cmd, t_data *d)
 		return (builtin_error("cd", old_pwd, curr_dir));
 	free(old_pwd);
 	free(curr_dir);
-	print_2d(d->env);
 	return (0);
 }
 

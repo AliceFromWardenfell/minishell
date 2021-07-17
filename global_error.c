@@ -1,4 +1,4 @@
-#include "executor.h"
+#include "minishell.h"
 
 int	builtin_error(char *builtin, char *to_free1, char *to_free2)
 {
@@ -23,8 +23,6 @@ void	clean(t_data *d)
 
 int		global_error(t_data *d)
 {
-	clean(d); // this clean has to be only when we exit from minishell (now its here because of valgrind)
-
 	if (d->backup.fd_out != -1)
 	{
 		if (dup2(d->backup.fd_out, 1) < 0)

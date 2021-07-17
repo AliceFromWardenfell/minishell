@@ -1,4 +1,4 @@
-#include "executor.h"
+#include "minishell.h"
 
 static int	do_fork(t_cmd *cmd, t_data *d)
 {
@@ -24,8 +24,11 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 
 	if (!pid)
 		if (execve(path_to_exec, cmd->argv, d->env) < 0)
-			exit(global_error(d)); // if execve returns < 0, we don't need to abort ALL while. We need to continue execute the commands!
-
+		{
+			free(path_to_exec); // mb move to global_error
+			exit(global_error(d));
+		}
+	free(path_to_exec);
 	// if (pid)
 	// {
 	// 	signal(SIGINT, SIG_DFL);
@@ -94,43 +97,39 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
-void	tmp_init(t_data *d) // move in big init
+int	executor(t_cmd *cmd, t_data *d)
 {
-	d->env = NULL;
-	d->amount_of_alloc_lines = 0;
-}
-
-int	executor(t_cmd *cmd, const char **envp)
-{
-	t_data	d;
-
-	errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
-
-	tmp_init(&d); // add to global init
 	
-	if (dup_envp(&d, envp)) // move to the begining
-		return (1);
+
+	// errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
+
 	
-	d.backup.fd_out = dup(1); // has to be initialize to -1
-	if (d.backup.fd_out < 0)
-		return (global_error(&d));
+	
+	// if (dup_envp(&d, envp)) // move to the begining
+	// 	return (1);
+	
+	// tmp_init(&d); // add to global init
 
-	d.backup.fd_in = dup(0); // has to be initialize to -1
-	if (d.backup.fd_in < 0)
-		return (global_error(&d));
+	// d.backup.fd_out = dup(1); // has to be initialize to -1
+	// if (d.backup.fd_out < 0)
+	// 	return (global_error(&d));
 
-	if (core_loop(cmd, &d))
+	// d.backup.fd_in = dup(0); // has to be initialize to -1
+	// if (d.backup.fd_in < 0)
+	// 	return (global_error(&d));
+
+	if (core_loop(cmd, d))
 		return (1);
-	if (dup2(d.backup.fd_out, 1) < 0)
-		return (global_error(&d));
-	if (close(d.backup.fd_out) < 0)
-		return (global_error(&d));
-	if (dup2(d.backup.fd_in, 0) < 0)
-		return (global_error(&d));
-	if (close(d.backup.fd_in) < 0)
-		return (global_error(&d));
+	// if (dup2(d.backup.fd_out, 1) < 0)
+	// 	return (global_error(&d));
+	// if (close(d.backup.fd_out) < 0)
+	// 	return (global_error(&d));
+	// if (dup2(d.backup.fd_in, 0) < 0)
+	// 	return (global_error(&d));
+	// if (close(d.backup.fd_in) < 0)
+	// 	return (global_error(&d));
 
-	clean(&d);
+	// clean(d);
 	// printf("*FINISHED*\n"); //remove
 	return (0);
 }

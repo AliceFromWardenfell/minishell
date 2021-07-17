@@ -1,4 +1,4 @@
-#include "executor.h"
+#include "minishell.h"
 
 int		echo_b(t_cmd *cmd)
 {
