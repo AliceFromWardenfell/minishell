@@ -13,8 +13,8 @@ int	do_builtin(t_cmd *cmd, t_data *d, int builtin)
 		ret = pwd_b();
 	if (builtin == EXPORT)
 		ret = export_b(cmd, d);
-	// if (builtin == UNSET)
-	// 	ret = unset_b();
+	if (builtin == UNSET)
+		ret = unset_b(cmd, d);
 	if (builtin == ENV)
 		ret = env_b(d);
 	// if (builtin == EXIT)

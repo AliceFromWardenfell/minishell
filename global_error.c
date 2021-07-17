@@ -15,7 +15,7 @@ void	clean(t_data *d)
 	int		i;
 
 	i = -1;
-	while (++i < d->amount_of_alloc_lines + 1)
+	while (++i < d->amount_of_alloc_lines)
 		free(d->env[i]);
 	if (d->env) //has to be init on NULL
 		free(d->env);

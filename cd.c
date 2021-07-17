@@ -67,7 +67,7 @@ static int	cd_in_path(t_cmd *cmd, t_data *d)
 
 static int	argc_is_2(t_cmd *cmd, t_data *d)
 {
-	if (!ft_strcmp(cmd->argv[1], "-"))
+	if (!ft_strcmp(cmd->argv[1], "-")) // bash shows pwd when cd -
 		if (cd_in_oldpwd(d))
 			return (1);
 	if (ft_strcmp(cmd->argv[1], "-"))
@@ -76,7 +76,7 @@ static int	argc_is_2(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
-int		cd_b(t_cmd *cmd, t_data *d)
+int		cd_b(t_cmd *cmd, t_data *d) // doesn't work when unset PWD && cd *
 {
 	int		argc;
 

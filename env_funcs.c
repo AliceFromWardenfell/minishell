@@ -20,6 +20,7 @@ int	dup_envp(t_data *d, const char **envp)
 		ft_strlcpy(d->env[i], envp[i], ft_strlen(envp[i]) + 1);
 	}
 	d->env[i] = NULL;
+	d->amount_of_alloc_lines++;
 	return (0);
 }
 

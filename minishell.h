@@ -101,7 +101,7 @@ int		cd_b(t_cmd *cmd, t_data *d);
 int		pwd_b(void);
 int		env_b(t_data *d);
 int		export_b(t_cmd *cmd, t_data *d);
-
+int		unset_b(t_cmd *cmd, t_data *d);
 int		key_exist(t_data *d, char *key, int	*line_num);
 int		dup_envp(t_data *d, const char **envp);
 int		change_env_val(t_data *d, char *key, char *val);
