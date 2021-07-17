@@ -106,10 +106,10 @@ int	executor(t_cmd *cmd, const char **envp)
 
 	errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
 
-	tmp_init(&d);
+	tmp_init(&d); // add to global init
 	
-	if (dup_envp(&d, envp))		// if (dup_envp(envp))
-		return (1);							// 	return (1); //wait for handle $(VAL)
+	if (dup_envp(&d, envp)) // move to the begining
+		return (1);
 	
 	d.backup.fd_out = dup(1); // has to be initialize to -1
 	if (d.backup.fd_out < 0)
