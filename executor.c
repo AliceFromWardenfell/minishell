@@ -2,7 +2,6 @@
 
 static int	do_fork(t_cmd *cmd, t_data *d)
 {
-	int		pid;
 	char	*path_to_exec;
 
 	path_to_exec = ft_strrchr(cmd->argv[0], '/');
@@ -18,13 +17,13 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 	
 
 	
-	pid = fork();
-	if (pid < 0)
+	cmd->pid = fork();
+	if (cmd->pid < 0)
 		return (global_error(d));
-
-	if (!pid)
+	if (!cmd->pid)
 		if (execve(path_to_exec, cmd->argv, d->env) < 0)
 		{
+			
 			free(path_to_exec); // mb move to global_error
 			exit(global_error(d));
 		}
@@ -35,8 +34,6 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 	// 	signal(SIGQUIT, SIG_DFL);
 	// }
 
-	if (wait(NULL) < 0)
-		return (global_error(d));
 	return (0);
 }
 
@@ -49,8 +46,7 @@ static int	execute(t_cmd *cmd, t_data *d) //check if argv[0] even exists, then d
 		if (do_fork(cmd, d))
 			return (1);
 	if (builtin)
-		if (do_builtin(cmd, d, builtin))
-			return (1);
+		do_builtin(cmd, d, builtin);
 	return (0);
 }
 
@@ -70,10 +66,28 @@ static int	do_pipe(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
+static int	wait_loop(t_data *d, t_cmd *cmd)
+{
+	int	status;
+
+	while (cmd)
+	{
+		if (cmd->pid)
+		{
+			if (waitpid(cmd->pid, &status, 0) < 0)
+				return (global_error(d));
+			d->status_code = WEXITSTATUS(status);
+		}
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
 static int	core_loop(t_cmd *cmd, t_data *d)
 {	
 	while (cmd)
 	{
+		cmd->pid = 0;
 		if (dup2(cmd->fd_in, 0) < 0) // init has to be on 0
 			return (global_error(d));
 		if (cmd->fd_in)
@@ -91,7 +105,6 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 
 		if (execute(cmd, d))
 			return (1);
-
 		cmd = cmd->next;
 	}
 	return (0);
@@ -99,37 +112,13 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 
 int	executor(t_cmd *cmd, t_data *d)
 {
-	
+	t_cmd	*cmd_cpy;
 
-	// errno = 0; // has to be in the begining of the first-big-super while, which waits for cmds
-
-	
-	
-	// if (dup_envp(&d, envp)) // move to the begining
-	// 	return (1);
-	
-	// tmp_init(&d); // add to global init
-
-	// d.backup.fd_out = dup(1); // has to be initialize to -1
-	// if (d.backup.fd_out < 0)
-	// 	return (global_error(&d));
-
-	// d.backup.fd_in = dup(0); // has to be initialize to -1
-	// if (d.backup.fd_in < 0)
-	// 	return (global_error(&d));
-
+	cmd_cpy = cmd;
 	if (core_loop(cmd, d))
 		return (1);
-	// if (dup2(d.backup.fd_out, 1) < 0)
-	// 	return (global_error(&d));
-	// if (close(d.backup.fd_out) < 0)
-	// 	return (global_error(&d));
-	// if (dup2(d.backup.fd_in, 0) < 0)
-	// 	return (global_error(&d));
-	// if (close(d.backup.fd_in) < 0)
-	// 	return (global_error(&d));
-
-	// clean(d);
-	// printf("*FINISHED*\n"); //remove
+	if (wait_loop(d, cmd_cpy))
+		return (1);
+	printf("status_code: %d\n", d->status_code); // remove
 	return (0);
 }

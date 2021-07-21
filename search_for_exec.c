@@ -50,7 +50,7 @@ char	*search_for_exec(t_data *d, char *program_name)
 
 	if (get_env_val(d, "PATH=", &val))
 		return (NULL);
-	path = ft_split(val, ':'); //dont forget to free
+	path = ft_split(val, ':'); //dont forget to free // leak when ./minishell; abracadabra
 	free(val);
 	if (!path)
 		return (NULL);
@@ -69,6 +69,8 @@ char	*search_for_exec(t_data *d, char *program_name)
 			{
 				val = custom_strjoin(path[i], program_name);
 				clean_2d_arr(path);
+				// if (closedir(dir) < 0)
+				// 	return (NULL);
 				if (!val)
 					return (NULL);
 				printf("result will be: \"%s\"\n", val);

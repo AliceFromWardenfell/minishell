@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	do_builtin(t_cmd *cmd, t_data *d, int builtin)
+void	do_builtin(t_cmd *cmd, t_data *d, int builtin)
 {
 	int		ret;
 
@@ -19,7 +19,7 @@ int	do_builtin(t_cmd *cmd, t_data *d, int builtin)
 		ret = env_b(d);
 	// if (builtin == EXIT)
 	// 	ret = exit_b();
-	return (ret);
+	d->status_code = ret;
 }
 
 int	is_builtin(t_cmd *cmd)

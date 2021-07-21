@@ -2,7 +2,6 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "executor.h"
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdlib.h>
@@ -12,6 +11,7 @@
 # include <errno.h>
 # include <string.h>
 # include <dirent.h>
+#include <sys/wait.h> // flags for waitpid()
 
 # define ECHO 1
 # define CD 2
@@ -41,6 +41,7 @@ typedef struct s_cmd
 	char			**argv;
 	int				fd_in;
 	int				fd_out;
+	int				pid;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -55,6 +56,7 @@ typedef struct s_data
 	struct s_backup	backup;
 	char			**env;
 	int				amount_of_alloc_lines;
+	int				status_code;
 }					t_data;
 
 t_cmd	*parser(char *str, char **env);
@@ -95,7 +97,7 @@ void	sig_handler(int sig);
 int		executor(t_cmd *cmd, t_data *d);
 int		has_slash(char *str); // make static
 int		is_builtin(t_cmd *cmd);
-int		do_builtin(t_cmd *cmd, t_data *d, int builtin);
+void	do_builtin(t_cmd *cmd, t_data *d, int builtin);
 int		echo_b(t_cmd *cmd);
 int		cd_b(t_cmd *cmd, t_data *d);
 int		pwd_b(void);

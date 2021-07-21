@@ -11,10 +11,12 @@ void	print_2d(char **arr) //tmp func
 
 void	init(t_data *d)
 {
+	errno = 0;
 	d->env = NULL;
 	d->amount_of_alloc_lines = 0;
 	d->backup.fd_out = -1;
 	d->backup.fd_in = -1;
+	d->status_code = 0;
 }
 
 void	clean_2d_arr(char **arr)

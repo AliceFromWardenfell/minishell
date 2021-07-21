@@ -6,7 +6,7 @@ int	builtin_error(char *builtin, char *to_free1, char *to_free2)
 		free(to_free1);
 	if (to_free2)
 		free(to_free2);
-	printf("minishell: %s: %s\n", builtin, strerror(errno)); // add check on whether or not errno == 0 before print //simulate error on stdout to see if syntax like in bash
+	printf("minishell: %s: %s\n", builtin, strerror(errno)); // add check whether or not errno == 0 before print //simulate error on stdout to see if syntax like in bash
 	return (1);
 }
 
