@@ -55,12 +55,10 @@ char	*search_for_exec(t_data *d, char *program_name)
 	if (!path)
 		return (NULL);
 	
-	
-	//print_2d(path); // check
-	
 	i = -1;
 	while (path[++i])
 	{
+		printf("path[%d] == %s\n", i, path[i]);
 		dir = opendir(path[i]);
 		if (!dir)
 			return (NULL);
@@ -78,7 +76,10 @@ char	*search_for_exec(t_data *d, char *program_name)
 			}
 		}
 		if (closedir(dir) < 0)
+		{
+			clean_2d_arr(path);
 			return (NULL);
+		}	
 	}
 	clean_2d_arr(path);
 	return(program_name);
