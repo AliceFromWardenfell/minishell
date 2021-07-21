@@ -55,6 +55,7 @@ char	*search_for_exec(t_data *d, char *program_name)
 	if (!path)
 		return (NULL);
 	
+	
 	//print_2d(path); // check
 	
 	i = -1;
