@@ -70,14 +70,15 @@ char	*search_for_exec(t_data *d, char *program_name)
 			{
 				val = custom_strjoin(path[i], program_name);
 				clean_2d_arr(path);
-				// if (closedir(dir) < 0)
-				// 	return (NULL);
+				closedir(dir);
 				if (!val)
 					return (NULL);
 				printf("result will be: \"%s\"\n", val);
 				return (val);
 			}
 		}
+		if (closedir(dir) < 0)
+			return (NULL);
 	}
 	clean_2d_arr(path);
 	return(program_name);
