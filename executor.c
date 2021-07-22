@@ -7,28 +7,32 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 
 	was_allocation = 0;
 	path_to_exec = ft_strrchr(cmd->argv[0], '/');
-	if (!path_to_exec)
+	if (!path_to_exec || cmd->argv[0][0] == '/')
 		path_to_exec = cmd->argv[0];
 	else
 		path_to_exec++;
 	
 	if (!has_slash(cmd->argv[0]))
-		path_to_exec = search_for_exec(d, path_to_exec, &was_allocation); //handle errors
+		path_to_exec = search_for_exec(d, path_to_exec, &was_allocation);
+
 	if (!path_to_exec)
 		return (global_error(d));
 	
+
 
 	
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 		return (global_error(d));
 	if (!cmd->pid)
+	{	
 		if (execve(path_to_exec, cmd->argv, d->env) < 0)
 		{
 			if (was_allocation)
 				free(path_to_exec); // mb move to global_error
 			exit(global_error(d));
 		}
+	}
 	if (was_allocation)
 		free(path_to_exec);
 	// if (pid)
