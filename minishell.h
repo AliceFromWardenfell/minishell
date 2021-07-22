@@ -114,6 +114,6 @@ void	clean_2d_arr(char **arr);
 void	clean(t_data *d);
 void	init(t_data *d);
 void	print_2d(char **arr); // remove
-char	*search_for_exec(t_data *d, char *program_name);
+char	*search_for_exec(t_data *d, char *program_name, int *was_allocation);
 
 #endif

@@ -3,7 +3,9 @@
 static int	do_fork(t_cmd *cmd, t_data *d)
 {
 	char	*path_to_exec;
+	int		was_allocation;
 
+	was_allocation = 0;
 	path_to_exec = ft_strrchr(cmd->argv[0], '/');
 	if (!path_to_exec)
 		path_to_exec = cmd->argv[0];
@@ -11,7 +13,7 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 		path_to_exec++;
 	
 	if (!has_slash(cmd->argv[0]))
-		path_to_exec = search_for_exec(d, path_to_exec); //handle errors
+		path_to_exec = search_for_exec(d, path_to_exec, &was_allocation); //handle errors
 	if (!path_to_exec)
 		return (global_error(d));
 	
@@ -27,7 +29,8 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 			free(path_to_exec); // mb move to global_error
 			exit(global_error(d));
 		}
-	free(path_to_exec);
+	if (was_allocation)
+		free(path_to_exec);
 	// if (pid)
 	// {
 	// 	signal(SIGINT, SIG_DFL);

@@ -38,14 +38,15 @@ int		has_slash(char *str) // make static
 	return (0);
 }
 
-char	*search_for_exec(t_data *d, char *program_name)
+char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 {
 	char			*val;
 	char			**path;
 	int				i;
 	DIR				*dir;
 	struct dirent	*ent;
-	
+	int				cmd_exists;
+
 	printf("program_name == %s\n", program_name); //remove
 
 	if (get_env_val(d, "PATH=", &val))
@@ -54,33 +55,43 @@ char	*search_for_exec(t_data *d, char *program_name)
 	free(val);
 	if (!path)
 		return (NULL);
-	
 	i = -1;
+	cmd_exists = 0;
 	while (path[++i])
 	{
 		printf("path[%d] == %s\n", i, path[i]);
 		dir = opendir(path[i]);
-		if (!dir)
-			return (NULL);
-		while ((ent = readdir(dir)) != NULL)
-		{
-			if (!ft_strcmp(ent->d_name, program_name))
-			{
-				val = custom_strjoin(path[i], program_name);
-				clean_2d_arr(path);
-				closedir(dir);
-				if (!val)
-					return (NULL);
-				printf("result will be: \"%s\"\n", val);
-				return (val);
-			}
-		}
-		if (closedir(dir) < 0)
+		if (!dir && errno != EACCES && errno != ENOENT && errno != ENOTDIR)
 		{
 			clean_2d_arr(path);
-			return (NULL);
-		}	
+			return(NULL);
+		}
+		else if (dir)
+		{
+			cmd_exists = 1;
+			while ((ent = readdir(dir)) != NULL) // readdir ret NULL
+			{
+				if (!ft_strcmp(ent->d_name, program_name))
+				{
+					val = custom_strjoin(path[i], program_name);
+					clean_2d_arr(path);
+					closedir(dir);
+					if (!val)
+						return (NULL);
+					printf("result will be: \"%s\"\n", val);
+					*was_allocation = 1;
+					return (val);
+				}
+			}
+			if (closedir(dir) < 0)
+			{
+				clean_2d_arr(path);
+				return (NULL);
+			}
+		}
 	}
 	clean_2d_arr(path);
-	return(program_name);
+	if (!cmd_exists)
+		return (NULL);
+	return (program_name);
 } // printf("%d. dir:\"%s\": %s\n", i, path[i], ent->d_name);
