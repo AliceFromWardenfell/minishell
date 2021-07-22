@@ -17,8 +17,8 @@ void	do_builtin(t_cmd *cmd, t_data *d, int builtin)
 		ret = unset_b(cmd, d);
 	if (builtin == ENV)
 		ret = env_b(d);
-	// if (builtin == EXIT)
-	// 	ret = exit_b();
+	if (builtin == EXIT)
+		exit_b(cmd, d);
 	d->status_code = ret;
 }
 

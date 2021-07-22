@@ -16,6 +16,7 @@ SRCS	=	executor.c \
 			env.c \
 			export.c \
 			unset.c \
+			exit.c \
 			env_funcs.c \
 			add_funcs.c \
 			\

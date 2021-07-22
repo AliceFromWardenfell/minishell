@@ -25,8 +25,8 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 	if (!cmd->pid)
 		if (execve(path_to_exec, cmd->argv, d->env) < 0)
 		{
-			
-			free(path_to_exec); // mb move to global_error
+			if (was_allocation)
+				free(path_to_exec); // mb move to global_error
 			exit(global_error(d));
 		}
 	if (was_allocation)
