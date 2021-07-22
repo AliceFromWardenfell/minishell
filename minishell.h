@@ -65,6 +65,7 @@ t_char	*unquote(char *str);
 int		ft_is_blank(t_char *c);
 int		pipe_check(t_char *no_quote);
 void	*pipe_clear(t_pipe *no_pipe);
+void	*pipe_clear_no_c(t_pipe *no_pipe);
 void	ft_charcpy(t_char *to, char c, int escaped);
 t_char	*tpipe_fill(t_char **no_q);
 t_pipe	*piper(t_char *no_q);

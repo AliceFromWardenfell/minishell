@@ -1,6 +1,20 @@
 #include "minishell.h"
 #include <unistd.h>
 
+void	*pipe_clear_no_c(t_pipe *no_pipe)
+{
+	int	i;
+
+	i = 0;
+	while (no_pipe[i].no_quote != NULL)
+	{
+		free(no_pipe[i].no_quote);
+		i++;
+	}
+	free(no_pipe);
+	return (NULL);
+}
+
 void	*pipe_clear(t_pipe *no_pipe)
 {
 	int	i;
