@@ -75,6 +75,6 @@ t_cmd	*create_cmd(t_pipe *no_p)
 		}
 		i++;
 	}
-	pipe_clear(no_p);
+	pipe_clear_no_c(no_p);
 	return (res);
 }
