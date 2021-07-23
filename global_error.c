@@ -39,7 +39,7 @@ int		global_error(t_data *d)
 			exit(1);
 	}
 	
-	printf("errno is %d\n", errno); // remove
+	//printf("errno is %d\n", errno); // remove
 	printf("%s\n", strerror(errno)); // add check on wether or not errno == 0 before print
 	return (1);
 }

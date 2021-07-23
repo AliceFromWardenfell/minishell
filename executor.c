@@ -90,7 +90,7 @@ static int	wait_loop(t_data *d, t_cmd *cmd)
 	return (0);
 }
 
-static int	core_loop(t_cmd *cmd, t_data *d)
+static int	core_loop(t_cmd *cmd, t_data *d) // try: cat; bla bla; bla; ctrl d
 {	
 	while (cmd)
 	{

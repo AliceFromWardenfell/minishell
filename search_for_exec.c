@@ -47,8 +47,6 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 	struct dirent	*ent;
 	int				cmd_exists;
 
-	printf("program_name == %s\n", program_name); //remove
-
 	if (get_env_val(d, "PATH=", &val))
 		return (NULL);
 	path = ft_split(val, ':'); //dont forget to free // leak when ./minishell; abracadabra
@@ -59,7 +57,6 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 	cmd_exists = 0;
 	while (path[++i])
 	{
-		printf("path[%d] == %s\n", i, path[i]);
 		dir = opendir(path[i]);
 		if (!dir && errno != EACCES && errno != ENOENT && errno != ENOTDIR)
 		{
@@ -69,7 +66,7 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 		else if (dir)
 		{
 			cmd_exists = 1;
-			while ((ent = readdir(dir)) != NULL) // readdir ret NULL
+			while ((ent = readdir(dir)) != NULL) // readdir ret NULL // distinguish error from end
 			{
 				if (!ft_strcmp(ent->d_name, program_name))
 				{
@@ -78,7 +75,6 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 					closedir(dir);
 					if (!val)
 						return (NULL);
-					printf("result will be: \"%s\"\n", val);
 					*was_allocation = 1;
 					return (val);
 				}

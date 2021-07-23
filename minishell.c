@@ -54,10 +54,10 @@ int	main (int argc, char **argv, char **env)
 		cmd_clear(cmd);
 		free(str);
 		signal(SIGINT, &sig_handler);
+		if (fd_restore(&d))
+			return (1);
 		str = readline("minishell> ");
 	}
-	if (fd_restore(&d))
-		return (1);
 	clean(&d);
 	return (0);
 }
