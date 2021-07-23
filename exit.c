@@ -17,6 +17,9 @@ static int	check_arg(char *str)
 
 void	exit_b(t_cmd *cmd, t_data *d)
 {
+	fd_restore(d);
+	fd_close(d);
+	ft_putstr_fd("exit\n", 1);
 	if (cmd->argv[1])
 		exit(check_arg(cmd->argv[1]));
 	else

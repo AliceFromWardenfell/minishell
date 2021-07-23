@@ -11,13 +11,18 @@ static int	fd_backup(t_data *d)
 	return (0);
 }
 
-static int 	fd_restore(t_data *d)
+int	fd_restore(t_data *d)
 {
 	if (dup2(d->backup.fd_out, 1) < 0)
 		return (global_error(d));
-	if (close(d->backup.fd_out) < 0)
-		return (global_error(d));
 	if (dup2(d->backup.fd_in, 0) < 0)
+		return (global_error(d));
+	return (0);
+}
+
+int fd_close(t_data *d)
+{
+	if (close(d->backup.fd_out) < 0)
 		return (global_error(d));
 	if (close(d->backup.fd_in) < 0)
 		return (global_error(d));
@@ -59,6 +64,8 @@ int	main (int argc, char **argv, char **env)
 		str = readline("minishell> ");
 	}
 	clean(&d);
+	if (fd_close(&d))
+		return (1);
 	ft_putstr_fd("exit\n", 1);
 	return (0);
 }
