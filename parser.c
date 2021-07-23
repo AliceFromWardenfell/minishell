@@ -28,7 +28,7 @@ static t_pipe	*parser_pipe(char *str)
 	return (no_pipe);
 }
 
-t_cmd	*parser(char *str, char **env)
+t_cmd	*parser(char *str, char **env, t_data *d)
 {
 	t_pipe	*no_pipe;
 	t_cmd	*cmd;
@@ -41,9 +41,9 @@ t_cmd	*parser(char *str, char **env)
 		return (NULL);
 	if (!redirect_sycheck(no_pipe))
 		return (print_r("Syntax error, redirection\n", pipe_clear(no_pipe)));
-	if (!redirection_parse(no_pipe, env))
+	if (!redirection_parse(no_pipe, env, d))
 		return (NULL);
-	if (!env_parse(no_pipe, env))
+	if (!env_parse(no_pipe, env, d))
 		return (print_r("Malloc failed\n", NULL));
 	cmd = create_cmd(no_pipe);
 	if (!cmd)

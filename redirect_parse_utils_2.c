@@ -40,13 +40,13 @@ char	*ch_transform(t_char *no_q)
 	return (res);
 }
 
-t_char	*redir_env(t_char *no_q, char **env, int redir)
+t_char	*redir_env(t_char *no_q, char **env, int redir, t_data *d)
 {
 	t_char	*temp;
 
 	if (no_q && redir != 4)
 	{
-		temp = check_env(no_q, env);
+		temp = check_env(no_q, env, d);
 		if (!temp)
 		{
 			free(no_q);

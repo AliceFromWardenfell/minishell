@@ -43,7 +43,7 @@ int	main (int argc, char **argv, char **env)
 	str = readline("minishell> ");
 	while (str)
 	{
-		if (!(cmd = parser(str, env)))
+		if (!(cmd = parser(str, env, &d)))
 		{
 			free(str);
 			str = readline("minishell> ");
@@ -59,5 +59,6 @@ int	main (int argc, char **argv, char **env)
 		str = readline("minishell> ");
 	}
 	clean(&d);
+	ft_putstr_fd("exit\n", 1);
 	return (0);
 }

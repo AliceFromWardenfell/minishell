@@ -11,7 +11,7 @@ int	key_check(t_char *no_q)
 	return (0);
 }
 
-int	env_parse(t_pipe *no_p, char **env)
+int	env_parse(t_pipe *no_p, char **env, t_data *d)
 {
 	t_char	*temp;
 	int		i;
@@ -19,7 +19,7 @@ int	env_parse(t_pipe *no_p, char **env)
 	i = 0;
 	while (no_p[i].no_quote)
 	{
-		temp = check_env(no_p[i].no_quote, env);
+		temp = check_env(no_p[i].no_quote, env, d);
 		if (!temp)
 		{
 			pipe_clear(no_p);
@@ -32,15 +32,12 @@ int	env_parse(t_pipe *no_p, char **env)
 	return (1);
 }
 
-// Заменить на нормальную функцию
-char	*ft_exit_status(void)
+char	*ft_exit_status(t_data *d)
 {
 	char	*res;
 
-	res = (char *)malloc(2);
+	res = ft_itoa(d->status_code);
 	if (!res)
 		return (NULL);
-	res[0] = '0';
-	res[1] = '\0';
 	return (res);
 }

@@ -21,13 +21,13 @@ static char	*get_key(t_char *no_q)
 	return (res);
 }
 
-static char	*get_env(t_char *no_q, char **env)
+static char	*get_env(t_char *no_q, char **env, t_data *d)
 {
 	char	*res;
 	char	*key;
 
 	if (no_q[1].c == '?' && no_q[1].escaped == no_q[0].escaped)
-		return (ft_exit_status());
+		return (ft_exit_status(d));
 	key = get_key(no_q);
 	if (!key)
 		return (NULL);
@@ -101,7 +101,7 @@ static t_char	*str_paste(t_char *no_q, int start, int end, char *to_paste)
 	return (res);
 }
 
-t_char	*check_env(t_char *no_q, char **env)
+t_char	*check_env(t_char *no_q, char **env, t_data *d)
 {
 	int			i;
 	t_char		*res;
@@ -116,7 +116,7 @@ t_char	*check_env(t_char *no_q, char **env)
 		if (key_check(&res[i]))
 		{
 			temp = str_paste(res, i, i + key_length(&res[i]),
-					get_env(&res[i], env));
+					get_env(&res[i], env, d));
 			free(res);
 			if (!temp)
 				return (NULL);

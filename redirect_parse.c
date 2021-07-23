@@ -45,7 +45,7 @@ static int	redirection_check(t_char *no_q)
 	return (1);
 }
 
-static int	redirection_process(t_pipe *no_p, int i, char **env)
+static int	redirection_process(t_pipe *no_p, int i, char **env, t_data *d)
 {
 	t_char	*temp;
 	char	*c_temp;
@@ -53,7 +53,7 @@ static int	redirection_process(t_pipe *no_p, int i, char **env)
 	int		j;
 
 	redir = get_redir(no_p->no_quote, i);
-	temp = redir_env(get_redir_path(no_p->no_quote, i), env, redir);
+	temp = redir_env(get_redir_path(no_p->no_quote, i), env, redir, d);
 	if (!temp)
 		return (0);
 	if (!redirection_check(temp))
@@ -72,7 +72,7 @@ static int	redirection_process(t_pipe *no_p, int i, char **env)
 	return (1);
 }
 
-static int	redirection_get(t_pipe *no_p, char **env)
+static int	redirection_get(t_pipe *no_p, char **env, t_data *d)
 {
 	int	i;
 	int	j;
@@ -83,7 +83,7 @@ static int	redirection_get(t_pipe *no_p, char **env)
 		if ((no_p->no_quote[i].c == '<' || no_p->no_quote[i].c == '>')
 			&& no_p->no_quote[i].escaped == 0)
 		{	
-			j = redirection_process(no_p, i, env);
+			j = redirection_process(no_p, i, env, d);
 			if (j < 1)
 				return (j);
 			i--;
@@ -93,7 +93,7 @@ static int	redirection_get(t_pipe *no_p, char **env)
 	return (1);
 }
 
-int	redirection_parse(t_pipe *no_p, char **env)
+int	redirection_parse(t_pipe *no_p, char **env, t_data *d)
 {
 	int	i;
 	int	j;
@@ -101,7 +101,7 @@ int	redirection_parse(t_pipe *no_p, char **env)
 	i = 0;
 	while (no_p[i].no_quote)
 	{
-		j = redirection_get(&no_p[i], env);
+		j = redirection_get(&no_p[i], env, d);
 		if (j == 0)
 		{
 			ft_putstr_fd("Malloc failed\n", 2);
