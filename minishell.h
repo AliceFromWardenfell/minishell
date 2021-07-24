@@ -57,6 +57,7 @@ typedef struct s_data
 	struct s_backup	backup;
 	char			**env;
 	int				amount_of_alloc_lines;
+	int				pipe_fd[2];
 	int				status_code;
 }					t_data;
 

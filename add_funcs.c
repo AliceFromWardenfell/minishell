@@ -17,6 +17,8 @@ void	init(t_data *d)
 	d->backup.fd_out = -1;
 	d->backup.fd_in = -1;
 	d->status_code = 0;
+	d->pipe_fd[0] = -1;
+	d->pipe_fd[1] = -1;
 }
 
 void	clean_2d_arr(char **arr)
