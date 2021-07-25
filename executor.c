@@ -81,8 +81,16 @@ static int	do_pipe(t_cmd *cmd, t_data *d, int	*next_cmd_exists)
 		*next_cmd_exists = 1;
 		if (pipe(d->pipe_fd) < 0)
 			return (global_error(d));
-		next_cmd->fd_in = d->pipe_fd[0];
-		cmd->fd_out = d->pipe_fd[1];
+		if (next_cmd->fd_in == 0)
+			next_cmd->fd_in = d->pipe_fd[0];
+		else
+			if (close(d->pipe_fd[0]) < 0)
+				return (global_error(d));
+		if (cmd->fd_out == 1)
+			cmd->fd_out = d->pipe_fd[1];
+		else
+			if (close(d->pipe_fd[1]) < 0)
+				return (global_error(d));
 	}
 	return (0);
 }
