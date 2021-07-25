@@ -26,8 +26,6 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 		return (global_error(d));
 	if (!cmd->pid)
 	{	
-		// if (close(d->pipe_fd[0]) < 0)
-		// 		return (global_error(d));
 		if (execve(path_to_exec, cmd->argv, d->env) < 0)
 		{
 			if (was_allocation)
@@ -46,7 +44,7 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
-static int	execute(t_cmd *cmd, t_data *d, int	*next_cmd_exists) //check if argv[0] even exists, then do things!
+static int	execute(t_cmd *cmd, t_data *d) //check if argv[0] even exists, then do things!
 {
 	int		builtin;
 
@@ -54,9 +52,9 @@ static int	execute(t_cmd *cmd, t_data *d, int	*next_cmd_exists) //check if argv[
 	if (!builtin)
 		if (do_fork(cmd, d))
 			return (1);
-	if (builtin && !next_cmd_exists)
+	if (builtin && !d->pipe_exists)
 		do_builtin(cmd, d, builtin);
-	if (builtin && next_cmd_exists)
+	if (builtin && d->pipe_exists)
 	{
 		cmd->pid = fork();
 		if (cmd->pid < 0)
@@ -70,15 +68,14 @@ static int	execute(t_cmd *cmd, t_data *d, int	*next_cmd_exists) //check if argv[
 	return (0);
 }
 
-static int	do_pipe(t_cmd *cmd, t_data *d, int	*next_cmd_exists)
+static int	do_pipe(t_cmd *cmd, t_data *d)
 {
 	t_cmd	*next_cmd;
 
-	*next_cmd_exists = 0;
 	next_cmd = cmd->next;
 	if (next_cmd && next_cmd->argv[0]) // if true, pipe exists
 	{
-		*next_cmd_exists = 1;
+		d->pipe_exists = 1;
 		if (pipe(d->pipe_fd) < 0)
 			return (global_error(d));
 		if (next_cmd->fd_in == 0)
@@ -114,8 +111,6 @@ static int	wait_loop(t_data *d, t_cmd *cmd)
 
 static int	core_loop(t_cmd *cmd, t_data *d)
 {	
-	int		next_cmd_exists;
-
 	while (cmd)
 	{
 		
@@ -128,10 +123,10 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 			if (close(cmd->fd_in) < 0)
 				return (global_error(d));
 
-		if (do_pipe(cmd, d, &next_cmd_exists))
+		if (do_pipe(cmd, d))
 			return (1);
 
-		if (!next_cmd_exists)
+		// if (!d->pipe_exists)
 			if (dup2(d->backup.fd_out, 1) < 0)
 				return (global_error(d));
 
@@ -143,7 +138,7 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 
 		
 
-		if (execute(cmd, d, &next_cmd_exists))
+		if (execute(cmd, d))
 			return (1);
 
 		cmd = cmd->next;
@@ -156,6 +151,7 @@ int	executor(t_cmd *cmd, t_data *d)
 	t_cmd	*cmd_cpy;
 
 	cmd_cpy = cmd;
+	d->pipe_exists = 0;
 	if (core_loop(cmd, d))
 		return (1);
 	
