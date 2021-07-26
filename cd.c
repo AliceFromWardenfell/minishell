@@ -47,17 +47,13 @@ static int	cd_in_path(t_cmd *cmd, t_data *d)
 
 	if (get_env_val(d, "PWD=", &old_pwd))
 		return (builtin_error("cd", NULL, NULL));
-	
 	if (chdir(cmd->argv[1]))
 		return (builtin_error("cd", old_pwd, NULL));
-
 	curr_dir = getcwd(NULL, 0);
 	if (!curr_dir)
 		return (builtin_error("cd", old_pwd, NULL));
-
 	if (change_env_val(d, "PWD=", curr_dir))
 		return (builtin_error("cd", old_pwd, curr_dir));
-
 	if (change_env_val(d, "OLDPWD=", old_pwd))
 		return (builtin_error("cd", old_pwd, curr_dir));
 	free(old_pwd);
@@ -76,9 +72,9 @@ static int	argc_is_2(t_cmd *cmd, t_data *d)
 	return (0);
 }
 
-int		cd_b(t_cmd *cmd, t_data *d) // doesn't work when unset PWD && cd *
+int	cd_b(t_cmd *cmd, t_data *d) // doesn't work when unset PWD && cd *
 {
-	int		argc;
+	int	argc;
 
 	argc = 0;
 	while (cmd->argv[argc])

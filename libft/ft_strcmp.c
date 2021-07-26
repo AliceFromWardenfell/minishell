@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	int index;
+	int	index;
 
 	index = 0;
-	while (((unsigned char)s1[index] == (unsigned char)s2[index]) &&
-	((unsigned char)s1[index] != '\0') &&
-	((unsigned char)s2[index] != '\0'))
+	while (((unsigned char)s1[index] == (unsigned char)s2[index])
+		&& ((unsigned char)s1[index] != '\0')
+		&& ((unsigned char)s2[index] != '\0'))
 		index++;
 	return ((unsigned char)s1[index] - (unsigned char)s2[index]);
 }

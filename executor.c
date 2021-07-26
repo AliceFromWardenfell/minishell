@@ -11,16 +11,10 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 		path_to_exec = cmd->argv[0];
 	else
 		path_to_exec++;
-	
 	if (!has_slash(cmd->argv[0]))
 		path_to_exec = search_for_exec(d, path_to_exec, &was_allocation);
-
 	if (!path_to_exec)
 		return (global_error(d));
-	
-
-
-	
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 		return (global_error(d));
@@ -37,7 +31,6 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 	}
 	if (was_allocation)
 		free(path_to_exec);
-
 	return (0);
 }
 
@@ -127,7 +120,6 @@ static int	core_loop(t_cmd *cmd, t_data *d) // segfault: ls > out | > 3
 		// if (!d->pipe_exists)
 			if (dup2(d->backup.fd_out, 1) < 0)
 				return (global_error(d));
-
 		if (dup2(cmd->fd_out, 1) < 0) // init has to be on 1
 			return (global_error(d));
 		if (cmd->fd_out != 1)
@@ -158,12 +150,9 @@ int	executor(t_cmd *cmd, t_data *d)
 	d->pipe_exists = 0;
 	if (core_loop(cmd, d))
 		return (1);
-	
-			
 	// if (d->pipe_fd[1] != -1)
 	// 	if (close(d->pipe_fd[1]) < 0)
 	// 		return (global_error(d)); // about this
-	
 	if (wait_loop(d, cmd_cpy))
 		return (1);
 	return (0);

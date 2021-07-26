@@ -4,7 +4,7 @@ static void	remove_line(t_data *d, int i)
 {
 	d->amount_of_alloc_lines--;
 	if (d->amount_of_alloc_lines != i)
-		free(d->env[i]);	
+		free(d->env[i]);
 	d->env[i] = d->env[d->amount_of_alloc_lines];
 	if (d->amount_of_alloc_lines == i)
 		free(d->env[d->amount_of_alloc_lines]);

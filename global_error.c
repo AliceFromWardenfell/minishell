@@ -21,7 +21,7 @@ void	clean(t_data *d)
 		free(d->env);
 }
 
-int		global_error(t_data *d)
+int	global_error(t_data *d)
 {
 	if (d->backup.fd_out != -1)
 	{
@@ -30,7 +30,6 @@ int		global_error(t_data *d)
 		if (close(d->backup.fd_out) < 0)
 			exit(1);
 	}
-		
 	if (d->backup.fd_in != -1)
 	{
 		if (dup2(d->backup.fd_in, 0) < 0)
@@ -38,7 +37,6 @@ int		global_error(t_data *d)
 		if (close(d->backup.fd_in) < 0)
 			exit(1);
 	}
-	
 	//printf("errno is %d\n", errno); // remove
 	printf("%s\n", strerror(errno)); // add check on wether or not errno == 0 before print
 	return (1);
