@@ -26,6 +26,8 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 		return (global_error(d));
 	if (!cmd->pid)
 	{	
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (execve(path_to_exec, cmd->argv, d->env) < 0)
 		{
 			if (was_allocation)
@@ -35,11 +37,6 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 	}
 	if (was_allocation)
 		free(path_to_exec);
-	// if (pid)
-	// {
-	// 	signal(SIGINT, SIG_DFL);
-	// 	signal(SIGQUIT, SIG_DFL);
-	// }
 
 	return (0);
 }
@@ -78,6 +75,7 @@ static int	do_pipe(t_cmd *cmd, t_data *d)
 		d->pipe_exists = 1;
 		if (pipe(d->pipe_fd) < 0)
 			return (global_error(d));
+		d->backup.old_fd_in = d->pipe_fd[0];
 		if (next_cmd->fd_in == 0)
 			next_cmd->fd_in = d->pipe_fd[0];
 		else
@@ -109,13 +107,13 @@ static int	wait_loop(t_data *d, t_cmd *cmd)
 	return (0);
 }
 
-static int	core_loop(t_cmd *cmd, t_data *d)
-{	
+static int	core_loop(t_cmd *cmd, t_data *d) // segfault: ls > out | > 3
+{
 	while (cmd)
 	{
-		
 
-		
+
+
 		cmd->pid = 0;
 		if (dup2(cmd->fd_in, 0) < 0) // init has to be on 0
 			return (global_error(d));
@@ -136,11 +134,17 @@ static int	core_loop(t_cmd *cmd, t_data *d)
 			if (close(cmd->fd_out) < 0)
 				return (global_error(d));
 
-		
+		if (cmd->argv[0])
+			if (execute(cmd, d))
+				return (1);
 
-		if (execute(cmd, d))
-			return (1);
+		if (dup2(d->backup.fd_in, 0) < 0)
+				return (global_error(d)); // hmmmmmm
 
+		// if (close(d->pipe_fd[1]) < 0)
+		// 	return (global_error(d)); //hmmm
+		// if (close(d->backup.old_fd_in) < 0)
+		// 	return (global_error(d)); //hmmm
 		cmd = cmd->next;
 	}
 	return (0);
