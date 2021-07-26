@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		echo_b(t_cmd *cmd)
+int	echo_b(t_cmd *cmd)
 {
 	int		i;
 	int		n;

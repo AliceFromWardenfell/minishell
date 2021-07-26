@@ -27,7 +27,7 @@ static char	*custom_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-int		has_slash(char *str) // make static
+int	has_slash(char *str) // make static
 {
 	int		i;
 
@@ -61,7 +61,7 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 		if (!dir && errno != EACCES && errno != ENOENT && errno != ENOTDIR)
 		{
 			clean_2d_arr(path);
-			return(NULL);
+			return (NULL);
 		}
 		else if (dir)
 		{

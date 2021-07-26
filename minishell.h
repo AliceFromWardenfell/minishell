@@ -12,7 +12,7 @@
 # include <errno.h>
 # include <string.h>
 # include <dirent.h>
-#include <sys/wait.h> // flags for waitpid()
+# include <sys/wait.h> // flags for waitpid()
 
 # define ECHO 1
 # define CD 2
@@ -112,7 +112,7 @@ int		key_exist(t_data *d, char *key, int	*line_num);
 int		dup_envp(t_data *d, const char **envp);
 int		change_env_val(t_data *d, char *key, char *val);
 int		get_env_val(t_data *d, char *key, char **val);
-int 	fd_restore(t_data *d);
+int		fd_restore(t_data *d);
 int		fd_close(t_data *d);
 int		global_error(t_data *d);
 int		builtin_error(char *builtin, char *to_free1, char *to_free2);

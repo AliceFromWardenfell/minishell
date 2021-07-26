@@ -8,15 +8,18 @@ int	key_exist(t_data *d, char *key, int	*line_num)
 	key_len = ft_strlen(key);
 	i = -1;
 	while (d->env[++i])
+	{	
 		if (!strncmp(d->env[i], key, key_len))
 		{
 			*line_num = i;
 			return (1);
 		}
+	}
 	return (0);
 }
 
-static int	replace_line(t_cmd *cmd, t_data *d, int line_to_replace, int argv_num)
+static int	replace_line(t_cmd *cmd, t_data *d,
+						int line_to_replace, int argv_num)
 {
 	char	*old_line;
 	char	*new_line;
@@ -44,7 +47,7 @@ static int	add_line(t_cmd *cmd, t_data *d, int argv_num)
 	i = -1;
 	while (d->env[++i])
 	{
-		new_arr[i] = ft_strdup(d->env[i]);;
+		new_arr[i] = ft_strdup(d->env[i]);
 		if (!new_arr[i])
 		{
 			while (--i >= 0)

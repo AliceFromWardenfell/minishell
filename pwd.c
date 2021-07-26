@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	pwd_b(void) 
+int	pwd_b(void)
 {
 	char	*buf;
 

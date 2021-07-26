@@ -20,7 +20,7 @@ int	fd_restore(t_data *d)
 	return (0);
 }
 
-int fd_close(t_data *d)
+int	fd_close(t_data *d)
 {
 	if (close(d->backup.fd_out) < 0)
 		return (global_error(d));
@@ -29,7 +29,7 @@ int fd_close(t_data *d)
 	return (0);
 }
 
-int	main (int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char	*str;
 	t_cmd	*cmd;
@@ -37,7 +37,6 @@ int	main (int argc, char **argv, char **env)
 
 	(void)argc; // mv to init
 	(void)argv;
-	
 	init(&d);
 	if (dup_envp(&d, (const char **)env))
 		return (1);
@@ -48,7 +47,8 @@ int	main (int argc, char **argv, char **env)
 	str = readline("minishell> ");
 	while (str)
 	{
-		if (!(cmd = parser(str, env, &d)))
+		cmd = parser(str, env, &d);
+		if (!cmd)
 		{
 			free(str);
 			str = readline("minishell> ");
