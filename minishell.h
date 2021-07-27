@@ -50,7 +50,7 @@ typedef struct s_backup
 {
 	int				fd_out;
 	int				fd_in;
-	int				old_fd_in;
+	int				old_fd_in[2];
 }					t_backup;
 
 typedef struct s_data
