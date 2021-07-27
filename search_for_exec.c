@@ -49,8 +49,17 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 
 	if (get_env_val(d, "PATH=", &val))
 		return (NULL);
+	if (!val)
+	{
+		val = ft_strjoin("./", program_name);
+		if (!val)
+			return (NULL);
+		*was_allocation = 1;
+		return(val);
+	}
 	path = ft_split(val, ':'); //dont forget to free // leak when ./minishell; abracadabra
-	free(val);
+	if (val)
+		free(val); // if was added; not sure about it
 	if (!path)
 		return (NULL);
 	i = -1;

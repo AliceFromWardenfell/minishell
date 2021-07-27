@@ -37,7 +37,6 @@ int	global_error(t_data *d)
 		if (close(d->backup.fd_in) < 0)
 			exit(1);
 	}
-	//printf("errno is %d\n", errno); // remove
-	printf("%s\n", strerror(errno)); // add check on wether or not errno == 0 before print
+	printf("minishell: %s\n", strerror(errno)); // add check on wether or not errno == 0 before print
 	return (1);
 }
