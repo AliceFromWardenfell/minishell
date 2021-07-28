@@ -118,6 +118,7 @@ int		fd_restore(t_data *d);
 int		fd_close(t_data *d);
 int		global_error(t_data *d);
 int		builtin_error(char *builtin, char *to_free1, char *to_free2);
+int		export_key_error(int *flag);
 void	clean_2d_arr(char **arr);
 void	clean(t_data *d);
 void	init(t_data *d);

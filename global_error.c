@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+int	export_key_error(int *flag)
+{
+	*flag = 1;
+	printf("minishell: export: not a valid identifier\n");
+	return (1);
+}
+
 int	builtin_error(char *builtin, char *to_free1, char *to_free2)
 {
 	if (to_free1)
