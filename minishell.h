@@ -22,7 +22,7 @@
 # define ENV 6
 # define EXIT 7
 
-# define TEMP_PATH "/Users/airon/goinfre/temp"
+	# define TEMP_PATH "/home/alisa/School21/minishell_tmp_folder_for_heredoc/tmp"
 
 typedef struct s_char
 {

@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **env)
 	str = readline("minishell> ");
 	while (str)
 	{
-		cmd = parser(str, env, &d);
+		cmd = parser(str, d.env, &d);
 		if (!cmd)
 		{
 			free(str);

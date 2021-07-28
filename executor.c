@@ -11,7 +11,9 @@ static int	do_fork(t_cmd *cmd, t_data *d)
 		path_to_exec = cmd->argv[0];
 	else
 		path_to_exec++;
-	if (!has_slash(cmd->argv[0]))
+	if (has_slash(cmd->argv[0]) && cmd->argv[0][0] != '/')
+		path_to_exec = cmd->argv[0];
+	else if (!has_slash(cmd->argv[0]))
 		path_to_exec = search_for_exec(d, path_to_exec, &was_allocation);
 	if (!path_to_exec)
 		return (global_error(d));

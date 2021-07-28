@@ -45,7 +45,7 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 	int				i;
 	DIR				*dir;
 	struct dirent	*ent;
-	int				cmd_exists;
+	// int				cmd_exists;
 
 	if (get_env_val(d, "PATH=", &val))
 		return (NULL);
@@ -63,7 +63,7 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 	if (!path)
 		return (NULL);
 	i = -1;
-	cmd_exists = 0;
+	// cmd_exists = 0;
 	while (path[++i])
 	{
 		dir = opendir(path[i]);
@@ -74,7 +74,7 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 		}
 		else if (dir)
 		{
-			cmd_exists = 1;
+			// cmd_exists = 1;
 			while ((ent = readdir(dir)) != NULL) // readdir ret NULL // distinguish error from end
 			{
 				if (!ft_strcmp(ent->d_name, program_name))
@@ -96,7 +96,7 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 		}
 	}
 	clean_2d_arr(path);
-	if (!cmd_exists)
-		return (NULL);
+	// if (!cmd_exists)
+	// 	return (NULL);
 	return (program_name);
 } // printf("%d. dir:\"%s\": %s\n", i, path[i], ent->d_name);
