@@ -1,14 +1,23 @@
 #include "minishell.h"
 
-static int	check_arg(char *str)
+static void	is_num(char *str)
 {
 	int		i;
+	
+	i = 0;
+	if (str && ft_strlen(str) > 1 && (str[0] == '+' || str[0] == '-') && ft_isdigit(str[1]))
+		while (str[++i])
+			if (!ft_isdigit(str[i]))
+				exit(2);
+	if (str && ft_strlen(str) > 1 && (str[0] == '+' || str[0] == '-') && !ft_isdigit(str[1]))
+		exit(2);
+}
+
+static int	check_arg(char *str)
+{
 	int		n;
 
-	i = -1;
-	while (str[++i])
-		if (!ft_isdigit(str[i]))
-			exit(128);
+	is_num(str);
 	n = ft_atoi(str);
 	if (n <= 0 || n >= 255)
 		exit(255);

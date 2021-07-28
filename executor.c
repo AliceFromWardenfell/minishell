@@ -85,6 +85,7 @@ static int	do_pipe(t_cmd *cmd, t_data *d, int *fd_in, int * fd_out)
 static int	wait_loop(t_data *d, t_cmd *cmd)
 {
 	int	status;
+	int	sig_num;
 
 	while (cmd)
 	{
@@ -92,7 +93,17 @@ static int	wait_loop(t_data *d, t_cmd *cmd)
 		{
 			if (waitpid(cmd->pid, &status, 0) < 0)
 				return (global_error(d));
-			d->status_code = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+			{
+				sig_num = WTERMSIG(status);
+				if (sig_num == SIGINT)
+					ft_putchar('\n');
+				else if (sig_num == SIGQUIT)
+					ft_putstr("Quit (core dumped)\n");
+				d->status_code = 128 + sig_num;
+			}
+			else
+				d->status_code = WEXITSTATUS(status);
 		}
 		cmd = cmd->next;
 	}
