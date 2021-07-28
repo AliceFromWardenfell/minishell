@@ -1,14 +1,5 @@
 #include "minishell.h"
 
-void	print_2d(char **arr) //tmp func
-{
-	int		i;
-
-	i = -1;
-	while (arr[++i])
-		printf("%d. %s\n", i, arr[i]);
-}
-
 void	init(t_data *d)
 {
 	errno = 0;
@@ -34,4 +25,22 @@ void	clean_2d_arr(char **arr)
 			free(arr[i]);
 		free(arr);
 	}
+}
+
+int	key_exist(t_data *d, char *key, int	*line_num)
+{
+	int		i;
+	int		key_len;
+
+	key_len = ft_strlen(key);
+	i = -1;
+	while (d->env[++i])
+	{	
+		if (!strncmp(d->env[i], key, key_len))
+		{
+			*line_num = i;
+			return (1);
+		}
+	}
+	return (0);
 }

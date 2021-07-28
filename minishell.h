@@ -12,7 +12,7 @@
 # include <errno.h>
 # include <string.h>
 # include <dirent.h>
-# include <sys/wait.h> // flags for waitpid()
+# include <sys/wait.h>
 
 # define ECHO 1
 # define CD 2
@@ -22,7 +22,7 @@
 # define ENV 6
 # define EXIT 7
 
-	# define TEMP_PATH "/home/alisa/School21/minishell_tmp_folder_for_heredoc/tmp"
+# define TEMP_PATH "/home/alisa/School21/minishell_tmp_folder_for_heredoc/tmp"
 
 typedef struct s_char
 {
@@ -102,6 +102,9 @@ void	sig_handler(int sig);
 int		executor(t_cmd *cmd, t_data *d);
 int		is_builtin(t_cmd *cmd);
 void	do_builtin(t_cmd *cmd, t_data *d, int builtin);
+int		do_pipe(t_cmd *cmd, t_data *d, int *fd_in, int *fd_out);
+int		do_fork(t_cmd *cmd, t_data *d);
+int		wait_loop(t_data *d, t_cmd *cmd);
 int		echo_b(t_cmd *cmd);
 int		cd_b(t_cmd *cmd, t_data *d);
 int		pwd_b(void);
@@ -121,7 +124,6 @@ int		export_key_error(int *flag);
 void	clean_2d_arr(char **arr);
 void	clean(t_data *d);
 void	init(t_data *d);
-void	print_2d(char **arr); // remove
 char	*search_for_exec(t_data *d, char *program_name, int *was_allocation);
 
 #endif

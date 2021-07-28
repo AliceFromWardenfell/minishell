@@ -29,13 +29,36 @@ int	fd_close(t_data *d)
 	return (0);
 }
 
+static int	main_loop(t_cmd *cmd, t_data *d, char **str)
+{
+	while (*str)
+	{
+		cmd = parser(*str, d->env, d);
+		if (!cmd)
+		{
+			free(*str);
+			*str = readline("minishell> ");
+			continue ;
+		}
+		signal(SIGINT, SIG_IGN);
+		executor(cmd, d);
+		cmd_clear(cmd);
+		free(*str);
+		signal(SIGINT, &sig_handler);
+		if (fd_restore(d))
+			return (1);
+		*str = readline("minishell> ");
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*str;
-	t_cmd	*cmd;
+	t_cmd	cmd;
 	t_data	d;
 
-	(void)argc; // mv to init
+	(void)argc;
 	(void)argv;
 	init(&d);
 	if (dup_envp(&d, (const char **)env))
@@ -45,24 +68,8 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	str = readline("minishell> ");
-	while (str)
-	{
-		cmd = parser(str, d.env, &d);
-		if (!cmd)
-		{
-			free(str);
-			str = readline("minishell> ");
-			continue ;
-		}
-		signal(SIGINT, SIG_IGN);
-		executor(cmd, &d); // check ret on errros
-		cmd_clear(cmd);
-		free(str);
-		signal(SIGINT, &sig_handler);
-		if (fd_restore(&d))
-			return (1);
-		str = readline("minishell> ");
-	}
+	if (main_loop(&cmd, &d, &str))
+		return (1);
 	clean(&d);
 	if (fd_close(&d))
 		return (1);

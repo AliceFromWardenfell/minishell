@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char *clean_return(char **path)
+static char	*clean_return(char **path)
 {
 	clean_2d_arr(path);
 	return (NULL);
@@ -33,14 +33,24 @@ static char	*custom_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-char	*path_loop(char **path, char *program_name, int *was_allocation)
+static char	*path_loop_clean(DIR *dir, char **path,
+							int *was_allocation, char **val)
 {
-	int				i;
+	clean_2d_arr(path);
+	closedir(dir);
+	if (!*val)
+		return (NULL);
+	*was_allocation = 1;
+	return (*val);
+}
+
+static char	*path_loop(char **path, char *program_name,
+						int *was_allocation, int i)
+{
 	DIR				*dir;
 	struct dirent	*ent;
-	char 			*val;
+	char			*val;
 
-	i = -1;
 	while (path[++i])
 	{
 		dir = opendir(path[i]);
@@ -48,17 +58,16 @@ char	*path_loop(char **path, char *program_name, int *was_allocation)
 			return (clean_return(path));
 		else if (dir)
 		{
-			while ((ent = readdir(dir)) != NULL)
+			ent = readdir(dir);
+			while (ent != NULL)
+			{
 				if (!ft_strcmp(ent->d_name, program_name))
 				{
 					val = custom_strjoin(path[i], program_name);
-					clean_2d_arr(path);
-					closedir(dir);
-					if (!val)
-						return (NULL);
-					*was_allocation = 1;
-					return (val);
+					return (path_loop_clean(dir, path, was_allocation, &val));
 				}
+				ent = readdir(dir);
+			}
 			if (closedir(dir) < 0)
 				return (clean_return(path));
 		}
@@ -80,15 +89,14 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 		if (!val)
 			return (NULL);
 		*was_allocation = 1;
-		return(val);
+		return (val);
 	}
 	path = ft_split(val, ':');
 	if (val)
 		free(val);
 	if (!path)
 		return (NULL);
-	
-	val = path_loop(path, program_name, was_allocation);
+	val = path_loop(path, program_name, was_allocation, -1);
 	if (!val)
 		return (NULL);
 	return (val);

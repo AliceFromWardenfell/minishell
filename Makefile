@@ -6,7 +6,9 @@ HDRS	=	executor.h minishell.h
 LIBS	= 	-lreadline
 LIBFT	=	-L libft -lft
 
-SRCS	=	executor.c \
+SRCS	=	executor_loop.c \
+			executor_fork.c \
+			executor_utils.c \
 			search_for_exec.c \
 			global_error.c \
 			builtins.c \

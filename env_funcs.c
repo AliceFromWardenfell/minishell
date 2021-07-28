@@ -14,7 +14,7 @@ int	dup_envp(t_data *d, const char **envp)
 	while (envp[++i])
 	{
 		d->amount_of_alloc_lines = i;
-		d->env[i] = (char *)malloc((ft_strlen(envp[i]) + 1) * sizeof(char)); //strlen has to be protected (not really)
+		d->env[i] = (char *)malloc((ft_strlen(envp[i]) + 1) * sizeof(char));
 		if (!d->env[i])
 			return (global_error(d));
 		ft_strlcpy(d->env[i], envp[i], ft_strlen(envp[i]) + 1);
@@ -36,8 +36,7 @@ int	get_env_val(t_data *d, char *key, char **val)
 		{
 			*val = ft_strdup(&(d->env[i][ft_strlen(key)]));
 			if (!*val)
-				return (1); // MALLOC ERROR
-			// *val = &(d->env[i][ft_strlen(key)]);
+				return (1);
 			return (0);
 		}
 	}
@@ -52,7 +51,7 @@ int	change_env_val(t_data *d, char *key, char *val)
 
 	new_line = ft_strjoin(key, val);
 	if (!new_line)
-		return (1); // MALLOC ERROR
+		return (1);
 	i = -1;
 	while (d->env[++i])
 	{

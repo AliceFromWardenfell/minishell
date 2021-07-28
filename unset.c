@@ -11,7 +11,7 @@ static void	remove_line(t_data *d, int i)
 	d->env[d->amount_of_alloc_lines] = NULL;
 }
 
-int	unset_b(t_cmd *cmd, t_data *d) //add prot from non-format
+int	unset_b(t_cmd *cmd, t_data *d)
 {
 	int		i;
 	char	*argv_cpy;
