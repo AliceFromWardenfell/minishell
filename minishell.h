@@ -61,6 +61,8 @@ typedef struct s_data
 	int				pipe_fd[2];
 	int				pipe_exists;
 	int				status_code;
+	char			*program_name;
+	int				was_allocation;
 }					t_data;
 
 t_cmd	*parser(char *str, char **env, t_data *d);
@@ -124,6 +126,6 @@ int		export_key_error(int *flag);
 void	clean_2d_arr(char **arr);
 void	clean(t_data *d);
 void	init(t_data *d);
-char	*search_for_exec(t_data *d, char *program_name, int *was_allocation);
+char	*search_for_exec(t_data *d, char *program_name);
 
 #endif
