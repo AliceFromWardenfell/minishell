@@ -67,14 +67,16 @@ static int	add_line(t_cmd *cmd, t_data *d, int argv_num)
 static int	check_key(char *argv_cpy, const char *eq_pos, int *flag)
 {
 	int		i;
+	int		len;
 
+	len = ft_strlen(argv_cpy);
 	if (eq_pos) //return (builtin_error("export", argv_cpy, NULL));
 	{
 		if (!ft_isalpha(argv_cpy[0]) && argv_cpy[0] != '_')
 			return (export_key_error(flag));
 		i = 0;
-		while (argv_cpy[++i] != '=')
-			if (!(ft_isalnum(argv_cpy[i]) || argv_cpy[0] != '_'))
+		while (++i < len)
+			if (!(ft_isalnum(argv_cpy[i]) || argv_cpy[0] == '_'))
 				return (export_key_error(flag));
 	}
 	return (0);

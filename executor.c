@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+static int	has_slash(char *str) // make static
+{
+	int		i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] == '/')
+			return (1);
+	return (0);
+}
+
 static int	do_fork(t_cmd *cmd, t_data *d)
 {
 	char	*path_to_exec;

@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+static char *clean_return(char **path)
+{
+	clean_2d_arr(path);
+	return (NULL);
+}
+
 static char	*custom_strjoin(char const *s1, char const *s2)
 {
 	char	*res;
@@ -27,25 +33,44 @@ static char	*custom_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-int	has_slash(char *str) // make static
+char	*path_loop(char **path, char *program_name, int *was_allocation)
 {
-	int		i;
+	int				i;
+	DIR				*dir;
+	struct dirent	*ent;
+	char 			*val;
 
 	i = -1;
-	while (str[++i])
-		if (str[i] == '/')
-			return (1);
-	return (0);
+	while (path[++i])
+	{
+		dir = opendir(path[i]);
+		if (!dir && errno != EACCES && errno != ENOENT && errno != ENOTDIR)
+			return (clean_return(path));
+		else if (dir)
+		{
+			while ((ent = readdir(dir)) != NULL)
+				if (!ft_strcmp(ent->d_name, program_name))
+				{
+					val = custom_strjoin(path[i], program_name);
+					clean_2d_arr(path);
+					closedir(dir);
+					if (!val)
+						return (NULL);
+					*was_allocation = 1;
+					return (val);
+				}
+			if (closedir(dir) < 0)
+				return (clean_return(path));
+		}
+	}
+	clean_2d_arr(path);
+	return (program_name);
 }
 
 char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 {
 	char			*val;
 	char			**path;
-	int				i;
-	DIR				*dir;
-	struct dirent	*ent;
-	// int				cmd_exists;
 
 	if (get_env_val(d, "PATH=", &val))
 		return (NULL);
@@ -57,46 +82,14 @@ char	*search_for_exec(t_data *d, char *program_name, int	*was_allocation)
 		*was_allocation = 1;
 		return(val);
 	}
-	path = ft_split(val, ':'); //dont forget to free // leak when ./minishell; abracadabra
+	path = ft_split(val, ':');
 	if (val)
-		free(val); // if was added; not sure about it
+		free(val);
 	if (!path)
 		return (NULL);
-	i = -1;
-	// cmd_exists = 0;
-	while (path[++i])
-	{
-		dir = opendir(path[i]);
-		if (!dir && errno != EACCES && errno != ENOENT && errno != ENOTDIR)
-		{
-			clean_2d_arr(path);
-			return (NULL);
-		}
-		else if (dir)
-		{
-			// cmd_exists = 1;
-			while ((ent = readdir(dir)) != NULL) // readdir ret NULL // distinguish error from end
-			{
-				if (!ft_strcmp(ent->d_name, program_name))
-				{
-					val = custom_strjoin(path[i], program_name);
-					clean_2d_arr(path);
-					closedir(dir);
-					if (!val)
-						return (NULL);
-					*was_allocation = 1;
-					return (val);
-				}
-			}
-			if (closedir(dir) < 0)
-			{
-				clean_2d_arr(path);
-				return (NULL);
-			}
-		}
-	}
-	clean_2d_arr(path);
-	// if (!cmd_exists)
-	// 	return (NULL);
-	return (program_name);
-} // printf("%d. dir:\"%s\": %s\n", i, path[i], ent->d_name);
+	
+	val = path_loop(path, program_name, was_allocation);
+	if (!val)
+		return (NULL);
+	return (val);
+}

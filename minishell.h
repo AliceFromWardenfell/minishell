@@ -100,7 +100,6 @@ t_cmd	*create_cmd(t_pipe *no_p);
 void	sig_handler(int sig);
 
 int		executor(t_cmd *cmd, t_data *d);
-int		has_slash(char *str); // make static
 int		is_builtin(t_cmd *cmd);
 void	do_builtin(t_cmd *cmd, t_data *d, int builtin);
 int		echo_b(t_cmd *cmd);
