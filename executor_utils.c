@@ -5,7 +5,7 @@ int	do_pipe(t_cmd *cmd, t_data *d, int *fd_in, int *fd_out)
 	t_cmd	*next_cmd;
 
 	next_cmd = cmd->next;
-	if (next_cmd && next_cmd->argv[0])
+	if (next_cmd)
 	{
 		d->pipe_exists = 1;
 		if (pipe(d->pipe_fd) < 0)
