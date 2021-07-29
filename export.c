@@ -54,7 +54,7 @@ static int	check_key(char *argv_cpy, const char *eq_pos, int *flag)
 			return (export_key_error(flag));
 		i = 0;
 		while (argv_cpy[++i] != '=')
-			if (!(ft_isalnum(argv_cpy[i]) || argv_cpy[0] == '_'))
+			if (!(ft_isalnum(argv_cpy[i]) || argv_cpy[i] == '_'))
 				return (export_key_error(flag));
 	}
 	return (0);
