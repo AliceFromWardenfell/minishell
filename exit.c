@@ -15,6 +15,8 @@ static void	is_num(char *str)
 		exit(2);
 	if (str && !ft_isdigit(str[0]) && str[0] != '+' && str[0] != '-')
 		exit(2);
+	if (str && (str[0] == '+' || str[0] == '-') && ft_strlen(str) == 1)
+		exit(2);
 }
 
 static int	check_arg(char *str)
