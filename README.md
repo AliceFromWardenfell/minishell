@@ -1,6 +1,6 @@
 # minishell
 
-Custom shell with handled pipes, redirections, and builtin-functions. The project was done in July 2021.
+Custom shell with handled pipes, redirections, and builtin-functions.  
 
 Task definition: [subject](https://drive.google.com/file/d/1CCk-kR_kcbOnPwXxv7bfJkJBoeWNl7Q3/view?usp=sharing)
 
